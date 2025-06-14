@@ -7,7 +7,8 @@ import { CategoriesModule } from './categories/categories.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // allows access to process.env anywhere
+      isGlobal: true,
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
