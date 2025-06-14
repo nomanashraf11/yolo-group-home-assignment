@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, Like } from 'typeorm';
+import { Repository, Between, Like, FindOperator } from 'typeorm';
 import { Task } from './task.entity';
-import { CreateTaskDto, UpdateTaskDto, TaskFilterDto } from './dto';
+import { TaskFilterDto } from './dtos/task-filter.dto';
+import { CreateTaskDto } from './dtos/create-task.dto';
+import { UpdateTaskDto } from './dtos/update-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -23,7 +25,12 @@ export class TasksService {
     } = filter;
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: {
+      status?: string;
+      title?: FindOperator<string>;
+      categoryId?: number;
+      dueDate?: FindOperator<Date>;
+    } = {};
 
     if (status) where.status = status;
     if (title) where.title = Like(`%${title}%`);
@@ -73,10 +80,7 @@ export class TasksService {
     }
   }
 
-  async changeCategory(
-    taskId: number,
-    categoryId: number | null,
-  ): Promise<Task> {
+  async changeCategory(taskId: number, categoryId: number): Promise<Task> {
     const task = await this.findOne(taskId);
     task.categoryId = categoryId;
     return this.tasksRepository.save(task);

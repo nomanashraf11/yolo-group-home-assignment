@@ -7,10 +7,14 @@ import {
   Put,
   Delete,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { CreateCategoryDto, UpdateCategoryDto, CategoryFilterDto } from './dto';
+
 import { Category } from './category.entity';
+import { CategoryFilterDto } from './dtos/category-filter.dto';
+import { CreateCategoryDto } from './dtos/create-category.dto';
+import { UpdateCategoryDto } from './dtos/update-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -18,7 +22,7 @@ export class CategoriesController {
 
   @Get()
   async findAll(
-    @Query() filter: CategoryFilterDto,
+    @Query(new ValidationPipe({ transform: true })) filter: CategoryFilterDto,
   ): Promise<{ data: Category[]; count: number }> {
     const [data, count] = await this.categoriesService.findAll(filter);
     return { data, count };

@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, FindOptionsWhere } from 'typeorm';
 import { Category } from './category.entity';
-import { CreateCategoryDto, UpdateCategoryDto, CategoryFilterDto } from './dto';
+import { CategoryFilterDto } from './dtos/category-filter.dto';
+import { CreateCategoryDto } from './dtos/create-category.dto';
+import { UpdateCategoryDto } from './dtos/update-category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -15,7 +17,7 @@ export class CategoriesService {
     const { page = 1, limit = 10, title } = filter;
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: FindOptionsWhere<Category> = {};
     if (title) where.title = Like(`%${title}%`);
 
     return this.categoriesRepository.findAndCount({

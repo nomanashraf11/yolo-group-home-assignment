@@ -9,8 +9,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTaskDto, UpdateTaskDto, TaskFilterDto } from './dto';
+
 import { Task } from './task.entity';
+import { UpdateTaskDto } from './dtos/update-task.dto';
+import { CreateTaskDto } from './dtos/create-task.dto';
+import { TaskFilterDto } from './dtos/task-filter.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -53,10 +56,5 @@ export class TasksController {
     @Param('categoryId') categoryId: number,
   ): Promise<Task> {
     return this.tasksService.changeCategory(taskId, categoryId);
-  }
-
-  @Put(':id/remove-category')
-  async removeFromCategory(@Param('id') taskId: number): Promise<Task> {
-    return this.tasksService.changeCategory(taskId, null);
   }
 }
