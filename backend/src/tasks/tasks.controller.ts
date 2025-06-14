@@ -57,4 +57,16 @@ export class TasksController {
   ): Promise<Task> {
     return this.tasksService.changeCategory(taskId, categoryId);
   }
+
+  @Get('category/:categoryId')
+  async getTasksByCategory(
+    @Param('categoryId') categoryId: number,
+    @Query() filter: TaskFilterDto,
+  ): Promise<{ data: Task[]; count: number }> {
+    const [data, count] = await this.tasksService.findByCategory(
+      categoryId,
+      filter,
+    );
+    return { data, count };
+  }
 }

@@ -79,6 +79,27 @@ export class TasksService {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
   }
+  async findByCategory(
+    categoryId: number,
+    filter: TaskFilterDto,
+  ): Promise<[Task[], number]> {
+    const { page = 1, limit = 10, status } = filter;
+    const skip = (page - 1) * limit;
+
+    const where: {
+      status?: string;
+      categoryId?: number;
+    } = { categoryId };
+
+    if (status) where.status = status;
+
+    return this.tasksRepository.findAndCount({
+      where,
+      skip,
+      take: limit,
+      order: { dueDate: 'ASC' },
+    });
+  }
 
   async changeCategory(taskId: number, categoryId: number): Promise<Task> {
     const task = await this.findOne(taskId);

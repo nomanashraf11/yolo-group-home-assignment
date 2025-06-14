@@ -1,0 +1,90 @@
+### Tasks API ###
+
+### Get all tasks with pagination and filters
+GET http://localhost:3000/tasks?page=1&limit=10
+Accept: application/json
+
+### Get all tasks filtered by status like pending
+GET http://localhost:3000/tasks?status=In%20Progress
+Accept: application/json
+
+### Get all tasks with specific category
+GET http://localhost:3000/tasks/category/1
+Accept: application/json
+
+
+### all tasks filtered by date range
+GET http://localhost:3000/tasks?fromDate=2023-01-01&toDate=2023-12-31
+Accept: application/json
+
+### single task
+GET http://localhost:3000/tasks/2
+Accept: application/json
+
+### Create a new task
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+  "title": "Complete project documentation",
+  "description": "Write detailed documentation for the Task Manager API",
+  "dueDate": "2023-12-15",
+  "status": "To Do"
+
+}
+
+### Update a task
+PUT http://localhost:3000/tasks/2
+Content-Type: application/json
+
+{
+  "status": "In Progress"
+}
+
+### Delete a task
+DELETE http://localhost:3000/tasks/2
+Accept: application/json
+
+### Assign task to category
+PUT http://localhost:3000/tasks/3/category/1
+Accept: application/json
+
+### Remove task from category
+PUT http://localhost:3000/tasks/1/remove-category
+Accept: application/json
+
+
+### =========================== Categories API ============================
+
+### Get all categories with pagination
+GET http://localhost:3000/categories?page=1&limit=10
+Accept: application/json
+
+### Get all categories filtered by title
+GET http://localhost:3000/categories?title=work
+Accept: application/json
+
+### Get a single category with its tasks
+GET http://localhost:3000/categories/1
+Accept: application/json
+
+### Create a new category
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "title": "Work",
+  "description": "Tasks related to work projects"
+}
+
+### Update a category
+PUT http://localhost:3000/categories/1
+Content-Type: application/json
+
+{
+  "description": "Tasks related to professional work projects"
+}
+
+### Delete a category
+DELETE http://localhost:3000/categories/1
+Accept: application/json

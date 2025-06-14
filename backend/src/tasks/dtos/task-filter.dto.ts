@@ -1,18 +1,26 @@
+import { Type } from 'class-transformer';
 import {
   IsOptional,
   IsEnum,
   IsDateString,
   IsString,
   IsNumber,
+  Min,
+  Max,
 } from 'class-validator';
 
 export class TaskFilterDto {
   @IsNumber()
+  @Type(() => Number)
   @IsOptional()
+  @Min(1)
   page?: number;
 
   @IsNumber()
+  @Type(() => Number)
   @IsOptional()
+  @Min(1)
+  @Max(100)
   limit?: number;
 
   @IsEnum(['To Do', 'In Progress', 'Done'])
