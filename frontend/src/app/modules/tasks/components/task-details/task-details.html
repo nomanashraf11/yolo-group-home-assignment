@@ -1,1 +1,47 @@
-<p>task-details works!</p>
+<div class="task-details" *ngIf="task">
+  <div class="header">
+    <div class="title-row">
+      <h2>{{ task.title }}</h2>
+      <app-status-badge [status]="task.status"></app-status-badge>
+    </div>
+    <span class="meta">Created: {{ task.createdAt | date:'mediumDate' }}</span>
+  </div>
+
+  <div class="content">
+    <div class="description-section">
+      <h3>Description</h3>
+      <p>{{ task.description || 'No description provided' }}</p>
+    </div>
+
+    <div class="details-section">
+      <div class="detail-item">
+        <mat-icon>event</mat-icon>
+        <div>
+          <span class="label">Due Date</span>
+          <span class="value">{{ task.dueDate | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <mat-icon>category</mat-icon>
+        <div>
+          <span class="label">Category</span>
+          <span class="value">{{ getCategoryName(task.categoryId!) }}</span>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <mat-icon>update</mat-icon>
+        <div>
+          <span class="label">Last Updated</span>
+          <span class="value">{{ task.updatedAt | date:'mediumDate' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!task" class="no-task">
+  <mat-icon>assignment</mat-icon>
+  <p>No task selected</p>
+</div>

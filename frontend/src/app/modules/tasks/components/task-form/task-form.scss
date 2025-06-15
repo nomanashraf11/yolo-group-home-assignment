@@ -1,0 +1,19 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.half-width {
+  width: calc(50% - 0.5rem);
+  margin-bottom: 1rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+mat-dialog-content {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}

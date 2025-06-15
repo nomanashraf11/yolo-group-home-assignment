@@ -1,1 +1,70 @@
-<p>categories-list works!</p>
+<div class="categories-list">
+  <ng-container *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="categories.length > 0; else noCategories">
+      <mat-card
+        class="category-card"
+        *ngFor="let category of categories; trackBy: trackByCategoryId"
+      >
+        <mat-card-header>
+          <mat-card-title>{{ category.title }}</mat-card-title>
+          <mat-card-subtitle>
+            Created: {{ category.createdAt | date:'mediumDate' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ category.description || 'No description provided' }}</p>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <ng-content select="[actions]"></ng-content>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="loading-message">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading categories...</p>
+    </div>
+  </ng-template>
+
+  <ng-template #noCategories>
+    <div class="no-categories-message">
+      <mat-icon>category</mat-icon>
+      <p>No categories found</p>
+    </div>
+  </ng-template>
+</div>
+<div class="categories-list">
+  @if (!isLoading) { @if (categories.length > 0) { @for (category of categories;
+  track category.id) {
+  <mat-card class="category-card">
+    <mat-card-header>
+      <mat-card-title>{{ category.title }}</mat-card-title>
+      <mat-card-subtitle>
+        Created: {{ category.createdAt | date:'mediumDate' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>{{ category.description || 'No description provided' }}</p>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <ng-content select="[actions]"></ng-content>
+    </mat-card-actions>
+  </mat-card>
+  } } @else {
+  <div class="no-categories-message">
+    <mat-icon>category</mat-icon>
+    <p>No categories found</p>
+  </div>
+  } } @else {
+  <div class="loading-message">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading categories...</p>
+  </div>
+  }
+</div>

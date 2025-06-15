@@ -1,0 +1,102 @@
+.filter-panel {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  .filter-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+  }
+
+  app-input-field,
+  app-select,
+  app-date-range-picker {
+    flex: 1;
+    min-width: 160px;
+  }
+
+  .search-field {
+    flex: 2;
+    min-width: 200px;
+  }
+
+  .status-field,
+  .category-field {
+    max-width: 180px;
+
+    @media (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
+
+  .date-range-field {
+    min-width: 240px;
+
+    @media (max-width: 768px) {
+      min-width: 100%;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-left: auto;
+    align-items: center;
+    padding-bottom: 0.25rem;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+
+    &.todo {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    &.in-progress {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+    &.done {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+  }
+
+  .category-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .category-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #4f46e5;
+    }
+  }
+}

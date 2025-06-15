@@ -1,11 +1,99 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { Category } from '../../../modules/categories/models/category.model';
+
+import { CommonModule } from '@angular/common';
+import { UiComponentsModule } from '../../ui-components/ui-components.module';
+
+interface StatusOption {
+  value: 'To Do' | 'In Progress' | 'Done' | '';
+  label: string;
+}
+
+interface CategoryOption {
+  value: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-filter-panel',
-  standalone: false,
   templateUrl: './filter-panel.html',
-  styleUrl: './filter-panel.scss'
+  styleUrls: ['./filter-panel.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, UiComponentsModule],
 })
-export class FilterPanel {
+export class FilterPanelComponent {
+  @Output() filterChange = new EventEmitter<any>();
+  @Input() categories: Category[] = [];
 
+  statusOptions: StatusOption[] = [
+    { value: '', label: 'All statuses' }, // Use empty string here, NOT null
+    { value: 'To Do', label: 'To Do' },
+    { value: 'In Progress', label: 'In Progress' },
+    { value: 'Done', label: 'Done' },
+  ];
+
+  categoryOptions: CategoryOption[] = [];
+
+  filterForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.filterForm = this.fb.group({
+      title: [''],
+      status: [''],
+      categoryId: [''],
+      fromDate: [null],
+      toDate: [null],
+    });
+  }
+
+  ngOnChanges() {
+    if (this.categories && Array.isArray(this.categories)) {
+      this.categoryOptions = this.categories.map((c) => ({
+        value: c.id,
+        label: c.title,
+      }));
+    } else {
+      this.categoryOptions = [];
+    }
+  }
+  get titleControl(): FormControl {
+    return this.filterForm.get('title') as FormControl;
+  }
+
+  get statusControl(): FormControl {
+    return this.filterForm.get('status') as FormControl;
+  }
+
+  get categoryIdControl(): FormControl {
+    return this.filterForm.get('categoryId') as FormControl;
+  }
+
+  onFilter(): void {
+    const filters = {
+      title: this.filterForm.value.title || undefined,
+      status: this.filterForm.value.status || undefined,
+      categoryId: this.filterForm.value.categoryId || undefined,
+      fromDate: this.filterForm.value.fromDate || undefined,
+      toDate: this.filterForm.value.toDate || undefined,
+    };
+    this.filterChange.emit(filters);
+  }
+
+  onReset(): void {
+    console.log('onReset');
+    this.filterForm.reset({
+      title: '',
+      status: '',
+      categoryId: '',
+      fromDate: null,
+      toDate: null,
+    });
+    this.filterChange.emit({});
+  }
 }

@@ -1,0 +1,102 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s ease;
+  }
+
+  &-primary {
+    background: #4f46e5;
+    color: white;
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+
+    &:hover:not(:disabled) {
+      background: #4338ca;
+    }
+  }
+
+  &-secondary {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+
+    &:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+  }
+
+  &-danger {
+    background: #fee2e2;
+    color: #dc2626;
+
+    &:hover:not(:disabled) {
+      background: #fecaca;
+    }
+  }
+
+  &-text {
+    background: transparent;
+    color: #4f46e5;
+    padding: 0;
+
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+  }
+
+  &-small {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    height: 32px;
+  }
+
+  &-medium {
+    padding: 8px 16px;
+    font-size: 1rem;
+    height: 40px;
+  }
+
+  &-large {
+    padding: 12px 24px;
+    font-size: 1.125rem;
+    height: 48px;
+  }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    position: absolute;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &.loading .btn-content {
+    opacity: 0;
+  }
+}

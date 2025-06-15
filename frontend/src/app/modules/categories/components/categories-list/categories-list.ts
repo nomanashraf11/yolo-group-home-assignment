@@ -1,11 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Category } from '../../models/category.model';
+import { NgTemplateOutlet, CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-categories-list',
-  standalone: false,
   templateUrl: './categories-list.html',
-  styleUrl: './categories-list.scss'
+  styleUrls: ['./categories-list.scss'],
+  imports: [
+    CommonModule,
+    NgTemplateOutlet,
+    MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
 })
-export class CategoriesList {
+export class CategoriesListComponent {
+  @Input() categories: Category[] = [];
+  @Input() isLoading = false;
 
+  trackByCategoryId(index: number, category: Category): string {
+    return category.id;
+  }
 }

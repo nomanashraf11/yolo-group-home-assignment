@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
+import { Category } from '../../models/category.model';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-category-details',
-  standalone: false,
   templateUrl: './category-details.html',
-  styleUrl: './category-details.scss'
+  styleUrls: ['./category-details.scss'],
+  imports: [MatIconModule, CommonModule],
 })
-export class CategoryDetails {
-
+export class CategoryDetailsComponent {
+  @Input() category: Category | null = null;
 }

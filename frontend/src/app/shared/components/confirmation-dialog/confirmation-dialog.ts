@@ -1,11 +1,38 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirmation-dialog',
-  standalone: false,
   templateUrl: './confirmation-dialog.html',
-  styleUrl: './confirmation-dialog.scss'
+  styleUrls: ['./confirmation-dialog.scss'],
+  imports: [MatDialogModule, MatButtonModule, CommonModule],
 })
-export class ConfirmationDialog {
+export class ConfirmationDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      title: string;
+      message: string;
+      confirmText?: string;
+      cancelText?: string;
+    }
+  ) {
+    this.data.confirmText = this.data.confirmText || 'Confirm';
+    this.data.cancelText = this.data.cancelText || 'Cancel';
+  }
 
+  onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
 }

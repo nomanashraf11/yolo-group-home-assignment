@@ -1,1 +1,38 @@
-<p>categories-page works!</p>
+<div class="categories-page">
+  <div class="header">
+    <h1>Categories</h1>
+    <button mat-raised-button color="primary" (click)="openCategoryForm()">
+      Add New Category
+    </button>
+  </div>
+
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Search by title</mat-label>
+      <input matInput [(ngModel)]="searchTitle" (keyup.enter)="onSearch()" />
+      <button matSuffix mat-icon-button (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <app-categories-list [categories]="categories" [isLoading]="isLoading">
+    <div actions *ngFor="let category of categories">
+      <button mat-button color="primary" (click)="openCategoryForm(category)">
+        <mat-icon>edit</mat-icon> Edit
+      </button>
+      <!-- <button mat-button color="warn" (click)="deleteCategory(category.id)">
+        <mat-icon>delete</mat-icon> Delete
+      </button> -->
+    </div>
+  </app-categories-list>
+
+  <!-- <app-pagination
+    *ngIf="totalCategories > itemsPerPage"
+    [currentPage]="currentPage"
+    [itemsPerPage]="itemsPerPage"
+    [totalItems]="totalCategories"
+    (pageChange)="onPageChange($event)"
+  >
+  </app-pagination> -->
+</div>

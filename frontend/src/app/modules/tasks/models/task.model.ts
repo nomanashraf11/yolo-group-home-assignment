@@ -20,8 +20,6 @@ export interface TaskFilterOptions {
 }
 
 export interface TasksResponse {
-  tasks: Task[];
-  total: number;
-  page: number;
-  limit: number;
+  data: Task[];
+  count: number;
 }

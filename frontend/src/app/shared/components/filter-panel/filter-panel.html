@@ -1,1 +1,71 @@
-<p>filter-panel works!</p>
+<div class="filter-panel">
+  <form [formGroup]="filterForm" class="filter-container">
+    <!-- Custom Search Field -->
+    <app-input-field
+      class="search-field"
+      label="Search tasks"
+      placeholder="Design, Docs, etc..."
+      icon="search"
+      [formControl]="titleControl"
+    ></app-input-field>
+
+    <!-- Custom Status Select -->
+    <app-select
+      class="status-field"
+      label="Status"
+      [options]="statusOptions"
+      [formControl]="statusControl"
+    >
+      <ng-template #optionTemplate let-option>
+        <span class="status-badge {{option.value | lowercase}}">
+          {{option.label}}
+        </span>
+      </ng-template>
+    </app-select>
+
+    <!-- Custom Category Select -->
+    <app-select
+      class="category-field"
+      label="Category"
+      [options]="categoryOptions"
+      [formControl]="categoryIdControl"
+    >
+      <ng-template #optionTemplate let-option>
+        <div class="category-option">
+          <span class="category-dot"></span>
+          {{option.label}}
+        </div>
+      </ng-template>
+    </app-select>
+
+    <!-- Date Range Picker -->
+    <app-date-range-picker
+      class="date-range-field"
+      [formGroup]="filterForm"
+      fromControlName="fromDate"
+      toControlName="toDate"
+    ></app-date-range-picker>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <app-button
+        type="secondary"
+        size="medium"
+        icon="refresh"
+        (click)="onReset()"
+        class="reset-btn"
+        >Reset</app-button
+      >
+
+      <app-button
+        type="primary"
+        size="medium"
+        icon="filter_alt"
+        (click)="onFilter()"
+        class="apply-btn"
+      >
+        Apply
+      </app-button>
+    </div>
+  </form>
+</div>

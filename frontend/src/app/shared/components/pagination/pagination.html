@@ -1,1 +1,39 @@
-<p>pagination works!</p>
+<div class="pagination-container" *ngIf="totalPages > 1">
+  <button mat-button [disabled]="currentPage === 1" (click)="goToFirst()">
+    First
+  </button>
+
+  <button mat-icon-button [disabled]="currentPage === 1" (click)="goToPrev()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <ng-container *ngFor="let page of pages">
+    <button
+      mat-button
+      [class.active]="page === currentPage"
+      (click)="goToPage(page)"
+    >
+      {{ page }}
+    </button>
+  </ng-container>
+
+  <button
+    mat-icon-button
+    [disabled]="currentPage === totalPages"
+    (click)="goToNext()"
+  >
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+  <button
+    mat-button
+    [disabled]="currentPage === totalPages"
+    (click)="goToLast()"
+  >
+    Last
+  </button>
+
+  <span class="page-info">
+    Page {{ currentPage }} of {{ totalPages }} ({{ totalItems }} items)
+  </span>
+</div>

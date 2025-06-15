@@ -5,17 +5,35 @@ import {
   TaskFilterOptions,
   TasksResponse,
 } from '../../models/task.model';
-import { CategoriesService } from '../../../categories/services/categories.service';
-import { Category } from '../../../categories/models/category.model';
+
 import { MatDialog } from '@angular/material/dialog';
-import { TaskFormComponent } from '../task-form/task-form.component';
-import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+
 import { TasksService } from '../../services/task.service';
+import { Category } from '../../../categories/models/category.model';
+import { CategoriesService } from '../../../categories/services/category.service';
+import { TaskFormComponent } from '../../components/task-form/task-form';
+import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel';
+import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge';
+import { CommonModule } from '@angular/common';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-tasks-page',
-  templateUrl: './tasks-page.component.html',
-  styleUrls: ['./tasks-page.component.scss'],
+  templateUrl: './tasks-page.html',
+  styleUrls: ['./tasks-page.scss'],
+  imports: [
+    MatIconModule,
+    FilterPanelComponent,
+    StatusBadgeComponent,
+    CommonModule,
+    PaginationComponent,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+  ],
 })
 export class TasksPageComponent implements OnInit {
   tasks: Task[] = [];
@@ -43,8 +61,8 @@ export class TasksPageComponent implements OnInit {
       .getTasks(this.currentPage, this.itemsPerPage, this.filters)
       .subscribe({
         next: (response) => {
-          this.tasks = response.tasks;
-          this.totalTasks = response.total;
+          this.tasks = response.data;
+          this.totalTasks = response.count;
           this.isLoading = false;
         },
         error: () => {

@@ -11,9 +11,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StatusBadgeComponent } from './components/status-badge/status-badge';
+import { PaginationComponent } from './components/pagination/pagination';
+import { FilterPanelComponent } from './components/filter-panel/filter-panel';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,12 +26,13 @@ import { StatusBadgeComponent } from './components/status-badge/status-badge';
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
+    PaginationComponent,
+    FilterPanelComponent,
   ],
   exports: [
-    // PaginationComponent,
-    // FilterPanelComponent,
+    PaginationComponent,
+    FilterPanelComponent,
     StatusBadgeComponent,
-    // DateRangePickerComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

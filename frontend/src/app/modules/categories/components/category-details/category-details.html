@@ -1,1 +1,25 @@
-<p>category-details works!</p>
+<div class="category-details" *ngIf="category">
+  <div class="header">
+    <h2>{{ category?.title }}</h2>
+    <span class="meta">Created: {{ category?.createdAt }}</span>
+  </div>
+
+  <div class="content">
+    <div class="description-section">
+      <h3>Description</h3>
+      <p>{{ category?.description || 'No description provided' }}</p>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-item">
+        <mat-icon>update</mat-icon>
+        <span>Last Updated: {{ category?.updatedAt }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!category" class="no-category">
+  <mat-icon>category</mat-icon>
+  <p>No category selected</p>
+</div>

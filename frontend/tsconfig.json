@@ -30,5 +30,6 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "exclude": ["src/test.ts", "**/*.spec.ts", "../backend/**"]
 }

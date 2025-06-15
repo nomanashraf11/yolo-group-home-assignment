@@ -5,12 +5,12 @@ const routes: Routes = [
   {
     path: 'tasks',
     loadChildren: () =>
-      import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
+      import('./modules/tasks/tasks-module').then((m) => m.TasksModule),
   },
   {
     path: 'categories',
     loadChildren: () =>
-      import('./modules/categories/categories.module').then(
+      import('./modules/categories/categories-module').then(
         (m) => m.CategoriesModule
       ),
   },
