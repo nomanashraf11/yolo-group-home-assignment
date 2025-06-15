@@ -1,0 +1,34 @@
+.status-badge {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+
+  &.sm {
+    font-size: 0.625rem;
+    padding: 0.15em 0.35em;
+  }
+
+  &.lg {
+    font-size: 0.875rem;
+    padding: 0.35em 0.75em;
+  }
+
+  &.todo {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+
+  &.in-progress {
+    background-color: #fff8e1;
+    color: #ff8f00;
+  }
+
+  &.done {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+}
