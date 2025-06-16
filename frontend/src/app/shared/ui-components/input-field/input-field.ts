@@ -20,6 +20,9 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() error = '';
   @Input() disabled = false;
+  @Input() textarea = false;
+  @Input() rows = 3;
+  @Input() maxLength?: number;
 
   value = '';
   onChange: any = () => {};

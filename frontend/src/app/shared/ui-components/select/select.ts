@@ -20,6 +20,7 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() error = '';
   @Input() disabled = false;
+  @Input() required: boolean = false;
 
   value: any;
   onChange: any = () => {};

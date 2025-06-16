@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 
@@ -23,6 +24,7 @@ export class TasksController {
   async findAll(
     @Query() filter: TaskFilterDto,
   ): Promise<{ data: Task[]; count: number }> {
+    console.log(filter);
     const [data, count] = await this.tasksService.findAll(filter);
     return { data, count };
   }
@@ -37,7 +39,7 @@ export class TasksController {
     return this.tasksService.create(createTaskDto);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: number,
     @Body() updateTaskDto: UpdateTaskDto,

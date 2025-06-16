@@ -1,66 +1,146 @@
 <div class="tasks-list">
-  <ng-container *ngIf="!isLoading; else loading">
-    <ng-container *ngIf="tasks.length > 0; else noTasks">
-      <table mat-table [dataSource]="tasks" class="mat-elevation-z1">
-        <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef>Title</th>
-          <td mat-cell *matCellDef="let task">
-            <div class="task-title">
-              <span>{{ task.title }}</span>
-              <app-status-badge
-                [status]="task.status"
-                size="sm"
-              ></app-status-badge>
+  <div class="tasks-list">
+    <ng-container *ngIf="!isLoading; else loading">
+      <ng-container *ngIf="tasks.length > 0; else noTasks">
+        <div class="task-list-container">
+          <div class="task-list-header">
+            <div class="header-title">Task</div>
+            <div class="header-due-date">Due Date</div>
+            <div class="header-category" *ngIf="showCategory">Category</div>
+            <div class="header-actions">Actions</div>
+          </div>
+
+          <div class="task-list-body">
+            <div
+              *ngFor="let task of tasks; trackBy: trackByTaskId"
+              class="task-row"
+              (click)="onTaskClick(task, $event)"
+            >
+              <div class="task-title">
+                <span class="title-text">{{ task.title }}</span>
+                <app-status-badge
+                  [status]="task.status"
+                  size="sm"
+                ></app-status-badge>
+                <div *ngIf="task.description" class="task-description">
+                  {{ task.description }}
+                </div>
+              </div>
+
+              <div class="task-due-date">
+                <svg
+                  class="calendar-icon"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z"
+                  />
+                  <path d="M16 2V6" />
+                  <path d="M8 2V6" />
+                  <path d="M3 10H21" />
+                </svg>
+                <span>{{ task.dueDate | date:'shortDate' }}</span>
+              </div>
+
+              <div class="task-category" *ngIf="showCategory">
+                <span
+                  class="category-dot"
+                  *ngIf="task.categoryId"
+                  [style.background]="getCategoryColor(task.categoryId)"
+                ></span>
+                <!-- <span>{{ getCategoryName(task?.categoryId) || '-' }}</span> -->
+              </div>
+
+              <div class="task-actions">
+                <app-button
+                  size="medium"
+                  type="secondary"
+                  icon="edit"
+                  (click)="editTask.emit(task)"
+                  tooltip="Edit task"
+                  >Edit</app-button
+                >
+                <app-button
+                  type="danger"
+                  size="medium"
+                  icon="delete"
+                  (click)="deleteTask.emit(task.id)"
+                  tooltip="Delete"
+                  >Delete</app-button
+                >
+              </div>
             </div>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="dueDate">
-          <th mat-header-cell *matHeaderCellDef>Due Date</th>
-          <td mat-cell *matCellDef="let task">
-            {{ task.dueDate | date:'mediumDate' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="category" *ngIf="showCategoryColumn">
-          <th mat-header-cell *matHeaderCellDef>Category</th>
-          <td mat-cell *matCellDef="let task">
-            <span *ngIf="task.categoryId">
-              {{ getCategoryName(task.categoryId) }}
-            </span>
-            <span *ngIf="!task.categoryId" class="no-category">-</span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="actions-header">
-            Actions
-          </th>
-          <td mat-cell *matCellDef="let task">
-            <ng-content
-              select="[actions]"
-              [ngTemplateOutletContext]="{ $implicit: task }"
-            ></ng-content>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+          </div>
+        </div>
+      </ng-container>
     </ng-container>
-  </ng-container>
 
-  <ng-template #loading>
-    <div class="loading-message">
-      <mat-spinner diameter="40"></mat-spinner>
-      <p>Loading tasks...</p>
-    </div>
-  </ng-template>
+    <ng-template #loading>
+      <div class="loading-message">
+        <div class="custom-spinner"></div>
+        <p>Loading tasks...</p>
+      </div>
+    </ng-template>
 
-  <ng-template #noTasks>
-    <div class="no-tasks-message">
-      <mat-icon>assignment</mat-icon>
-      <p>No tasks found</p>
-    </div>
-  </ng-template>
+    <ng-template #noTasks>
+      <div class="no-tasks-message">
+        <svg
+          class="empty-icon"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 16L8 20L12 16"
+            stroke="#94A3B8"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 20V10"
+            stroke="#94A3B8"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M16 4L12 8L8 4"
+            stroke="#94A3B8"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M12 8V18"
+            stroke="#94A3B8"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M20 16L16 20L12 16"
+            stroke="#94A3B8"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <h3>No tasks found</h3>
+        <p>Get started by creating your first task</p>
+        <app-button
+          type="primary"
+          size="medium"
+          icon="add"
+          (click)="onCreateTask()"
+        >
+          Create Task
+        </app-button>
+      </div>
+    </ng-template>
+  </div>
 </div>

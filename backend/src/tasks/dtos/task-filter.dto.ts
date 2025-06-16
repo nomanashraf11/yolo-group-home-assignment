@@ -42,4 +42,18 @@ export class TaskFilterDto {
   @IsNumber()
   @IsOptional()
   categoryId?: number;
+
+  @IsString()
+  @Type(() => String)
+  @IsOptional()
+  sortByStatus?: 'ASC' | 'DESC';
+
+  @IsString()
+  @Type(() => String)
+  @IsOptional()
+  sortByDueDate?: 'ASC' | 'DESC';
+  @IsString()
+  @Type(() => String)
+  @IsOptional()
+  sortByTitle?: 'ASC' | 'DESC';
 }

@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {
-  Task,
-  TaskFilterOptions,
-  TasksResponse,
-} from '../../models/task.model';
+import { Task, TaskFilterOptions } from '../../models/task.model';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -20,6 +16,9 @@ import { CommonModule } from '@angular/common';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ButtonComponent } from '../../../../shared/ui-components/button/button';
+import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
+import { TasksListComponent } from '../../components/tasks-list/tasks-list';
 
 @Component({
   selector: 'app-tasks-page',
@@ -28,16 +27,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [
     MatIconModule,
     FilterPanelComponent,
-    StatusBadgeComponent,
     CommonModule,
     PaginationComponent,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    UiComponentsModule,
+    TasksListComponent,
   ],
 })
 export class TasksPageComponent implements OnInit {
   tasks: Task[] = [];
-  categories: Category[] = [];
+  // categories: Category[] = [];
   totalTasks = 0;
   currentPage = 1;
   itemsPerPage = 10;
@@ -52,7 +52,6 @@ export class TasksPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTasks();
-    this.loadCategories();
   }
 
   loadTasks(): void {
@@ -71,11 +70,11 @@ export class TasksPageComponent implements OnInit {
       });
   }
 
-  loadCategories(): void {
-    this.categoriesService.getCategories(1, 100).subscribe((response) => {
-      this.categories = response.categories;
-    });
-  }
+  // loadCategories(): void {
+  //   this.categoriesService.getCategories(1, 100).subscribe((response) => {
+  //     this.categories = response.categories;
+  //   });
+  // }
 
   onPageChange(page: number): void {
     this.currentPage = page;
@@ -91,7 +90,9 @@ export class TasksPageComponent implements OnInit {
   openTaskForm(task?: Task): void {
     const dialogRef = this.dialog.open(TaskFormComponent, {
       width: '600px',
-      data: { task, categories: this.categories },
+      data: {
+        task,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -119,9 +120,9 @@ export class TasksPageComponent implements OnInit {
     });
   }
 
-  changeTaskCategory(taskId: string, categoryId: string | null): void {
-    this.tasksService.changeTaskCategory(taskId, categoryId).subscribe(() => {
-      this.loadTasks();
-    });
-  }
+  // changeTaskCategory(taskId: string, categoryId: string | null): void {
+  //   this.tasksService.changeTaskCategory(taskId, categoryId).subscribe(() => {
+  //     this.loadTasks();
+  //   });
+  // }
 }

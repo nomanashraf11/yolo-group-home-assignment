@@ -1,39 +1,89 @@
-<div class="pagination-container" *ngIf="totalPages > 1">
-  <button mat-button [disabled]="currentPage === 1" (click)="goToFirst()">
-    First
-  </button>
-
-  <button mat-icon-button [disabled]="currentPage === 1" (click)="goToPrev()">
-    <mat-icon>chevron_left</mat-icon>
-  </button>
-
-  <ng-container *ngFor="let page of pages">
+<div class="pagination" *ngIf="totalPages > 1">
+  <div class="pagination-controls">
     <button
-      mat-button
-      [class.active]="page === currentPage"
-      (click)="goToPage(page)"
+      class="pagination-button edge"
+      [disabled]="currentPage === 1"
+      (click)="goToFirst()"
+      aria-label="First page"
     >
-      {{ page }}
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M18 17L13 12L18 7M11 17L6 12L11 7"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
     </button>
-  </ng-container>
 
-  <button
-    mat-icon-button
-    [disabled]="currentPage === totalPages"
-    (click)="goToNext()"
-  >
-    <mat-icon>chevron_right</mat-icon>
-  </button>
+    <button
+      class="pagination-button"
+      [disabled]="currentPage === 1"
+      (click)="goToPrev()"
+      aria-label="Previous page"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M15 18L9 12L15 6"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
 
-  <button
-    mat-button
-    [disabled]="currentPage === totalPages"
-    (click)="goToLast()"
-  >
-    Last
-  </button>
+    <div class="page-numbers">
+      <ng-container *ngFor="let page of pages">
+        <button
+          class="page-button"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)"
+          [attr.aria-current]="page === currentPage ? 'page' : null"
+        >
+          {{ page }}
+        </button>
+      </ng-container>
+    </div>
 
-  <span class="page-info">
-    Page {{ currentPage }} of {{ totalPages }} ({{ totalItems }} items)
-  </span>
+    <button
+      class="pagination-button"
+      [disabled]="currentPage === totalPages"
+      (click)="goToNext()"
+      aria-label="Next page"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M9 18L15 12L9 6"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <button
+      class="pagination-button edge"
+      [disabled]="currentPage === totalPages"
+      (click)="goToLast()"
+      aria-label="Last page"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M6 17L11 12L6 7M13 17L18 12L13 7"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <div class="pagination-info">
+    Showing page {{ currentPage }} of {{ totalPages }} • {{ totalItems }} items
+    total
+  </div>
 </div>

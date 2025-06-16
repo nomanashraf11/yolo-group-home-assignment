@@ -1,17 +1,44 @@
-h2 {
-  margin: 0 0 1rem 0;
-  color: #3f51b5;
-}
+.dialog-container {
+  padding: 24px;
+  max-width: 400px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background: white;
+  border: 1px solid #e2e8f0;
 
-p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #333;
-}
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
 
-mat-dialog-actions {
-  padding: 1.5rem 0 0 0;
-  margin: 0 -24px -24px -24px;
-  justify-content: flex-end;
+    .dialog-icon {
+      flex-shrink: 0;
+    }
+
+    .dialog-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+  }
+
+  .dialog-content {
+    margin-bottom: 24px;
+
+    p {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: #475569;
+    }
+  }
+
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
 }

@@ -6,6 +6,7 @@
       [disabled]="disabled"
       [value]="value"
       (change)="onSelect($event)"
+      [attr.required]="required ? '' : null"
     >
       <option value="" disabled>{{ placeholder }}</option>
       <option *ngFor="let option of options" [value]="option.value">

@@ -1,93 +1,41 @@
 <div class="tasks-page">
   <div class="header">
     <div class="header-content">
-      <h1>Task Manager</h1>
-      <button
-        mat-flat-button
-        color="primary"
+      <div class="header-title">
+        <h1>My Tasks</h1>
+        <p class="subtitle">Manage your work and stay organized</p>
+      </div>
+      <app-button
+        type="primary"
+        size="medium"
+        icon="add"
         (click)="openTaskForm()"
-        class="add-task-btn"
       >
-        <mat-icon>add</mat-icon>
         New Task
-      </button>
+      </app-button>
     </div>
   </div>
 
   <div class="filters-section">
     <app-filter-panel
-      [categories]="categories"
       (filterChange)="onFilterChange($event)"
-    >
-    </app-filter-panel>
+    ></app-filter-panel>
   </div>
 
   <div class="tasks-section">
     <div class="tasks-container">
-      <div *ngIf="isLoading" class="loading">
-        <mat-spinner diameter="40"></mat-spinner>
-        <div>Loading tasks...</div>
+      <div class="tasks-header">
+        <h2 class="tasks-title">
+          All Tasks <span class="task-count">{{totalTasks}} items</span>
+        </h2>
       </div>
 
-      <div *ngIf="!isLoading && tasks?.length === 0" class="no-tasks">
-        <mat-icon>inbox</mat-icon>
-        <h3>No tasks found</h3>
-        <p>Create a new task to get started</p>
-        <button mat-stroked-button (click)="openTaskForm()">
-          <mat-icon>add</mat-icon>
-          Create Task
-        </button>
-      </div>
-
-      <div class="tasks-list">
-        <div
-          class="task-card"
-          *ngFor="let task of tasks"
-          (click)="openTaskForm(task)"
-        >
-          <div class="task-header">
-            <div class="task-checkbox">
-              <mat-checkbox (click)="$event.stopPropagation()"></mat-checkbox>
-            </div>
-            <h3>{{ task.title }}</h3>
-            <div class="task-actions">
-              <button
-                mat-icon-button
-                (click)="$event.stopPropagation(); openTaskForm(task)"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                (click)="$event.stopPropagation(); deleteTask(task.id)"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </div>
-
-          <div class="task-body">
-            <p class="description" *ngIf="task.description">
-              {{ task.description }}
-            </p>
-
-            <div class="task-footer">
-              <div class="task-meta">
-                <div class="meta-item due-date">
-                  <mat-icon>event</mat-icon>
-                  <span>{{ task.dueDate | date:'shortDate' }}</span>
-                </div>
-                <div class="meta-item status">
-                  <app-status-badge [status]="task.status"></app-status-badge>
-                </div>
-                <div class="meta-item category" *ngIf="task.categoryId">
-                  <div class="category-dot"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-tasks-list
+        [tasks]="tasks"
+        [isLoading]="isLoading"
+        (editTask)="openTaskForm($event)"
+        (deleteTask)="deleteTask($event)"
+      ></app-tasks-list>
 
       <app-pagination
         *ngIf="totalTasks > itemsPerPage"
@@ -95,8 +43,7 @@
         [itemsPerPage]="itemsPerPage"
         [totalItems]="totalTasks"
         (pageChange)="onPageChange($event)"
-      >
-      </app-pagination>
+      ></app-pagination>
     </div>
   </div>
 </div>

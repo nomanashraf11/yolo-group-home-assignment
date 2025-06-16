@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, Like, FindOperator } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Task } from './task.entity';
 import { TaskFilterDto } from './dtos/task-filter.dto';
 import { CreateTaskDto } from './dtos/create-task.dto';
@@ -22,34 +22,54 @@ export class TasksService {
       toDate,
       title,
       categoryId,
+      sortByTitle,
+      sortByDueDate,
     } = filter;
+
     const skip = (page - 1) * limit;
 
-    const where: {
-      status?: string;
-      title?: FindOperator<string>;
-      categoryId?: number;
-      dueDate?: FindOperator<Date>;
-    } = {};
+    const query = this.tasksRepository
+      .createQueryBuilder('task')
+      .leftJoinAndSelect('task.category', 'category');
 
-    if (status) where.status = status;
-    if (title) where.title = Like(`%${title}%`);
-    if (categoryId) where.categoryId = categoryId;
-    if (fromDate && toDate) {
-      where.dueDate = Between(new Date(fromDate), new Date(toDate));
-    } else if (fromDate) {
-      where.dueDate = Between(new Date(fromDate), new Date('9999-12-31'));
-    } else if (toDate) {
-      where.dueDate = Between(new Date('1970-01-01'), new Date(toDate));
+    if (status) query.andWhere('task.status = :status', { status });
+    if (title)
+      query.andWhere('task.title ILIKE :title', { title: `%${title}%` });
+    if (categoryId)
+      query.andWhere('task.categoryId = :categoryId', { categoryId });
+    if (fromDate && toDate)
+      query.andWhere('task.dueDate BETWEEN :fromDate AND :toDate', {
+        fromDate,
+        toDate,
+      });
+    else if (fromDate)
+      query.andWhere('task.dueDate >= :fromDate', { fromDate });
+    else if (toDate) query.andWhere('task.dueDate <= :toDate', { toDate });
+
+    query.skip(skip).take(limit);
+
+    let hasSort = false;
+
+    if (typeof sortByDueDate === 'string') {
+      query.orderBy('task.dueDate', sortByDueDate);
+      hasSort = true;
     }
 
-    return this.tasksRepository.findAndCount({
-      where,
-      skip,
-      take: limit,
-      order: { dueDate: 'ASC' },
-      relations: ['category'],
-    });
+    if (typeof sortByTitle === 'string') {
+      if (hasSort) {
+        query.addOrderBy('task.title', sortByTitle);
+      } else {
+        query.orderBy('task.title', sortByTitle);
+        hasSort = true;
+      }
+    }
+
+    if (!hasSort) {
+      query.orderBy('task.dueDate', 'ASC');
+    }
+    console.log(query.getSql());
+    const [data, count] = await query.getManyAndCount();
+    return [data, count];
   }
 
   async findOne(id: number): Promise<Task> {

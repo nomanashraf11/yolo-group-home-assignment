@@ -1,7 +1,6 @@
-### Tasks API ###
 
 ### Get all tasks with pagination and filters
-GET http://localhost:3000/tasks?page=1&limit=10
+GET http://localhost:3000/tasks?sortByDueDate=ASC
 Accept: application/json
 
 ### Get all tasks filtered by status like pending
