@@ -1,25 +1,27 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Category } from '../../models/category.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from '../../../../shared/shared-module';
+import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
 
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.html',
   styleUrls: ['./category-form.scss'],
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
+    SharedModule,
+    UiComponentsModule,
   ],
 })
 export class CategoryFormComponent implements OnInit {
@@ -50,6 +52,7 @@ export class CategoryFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.categoryForm.invalid) {
+      this.categoryForm.markAllAsTouched();
       return;
     }
 
@@ -60,11 +63,11 @@ export class CategoryFormComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  get title() {
-    return this.categoryForm.get('title');
+  get title(): FormControl {
+    return this.categoryForm.get('title') as FormControl;
   }
 
-  get description() {
-    return this.categoryForm.get('description');
+  get description(): FormControl {
+    return this.categoryForm.get('description') as FormControl;
   }
 }

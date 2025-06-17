@@ -6,9 +6,19 @@
           class="category-item"
           *ngFor="let category of categories; trackBy: trackByCategoryId"
           [class.expanded]="isCategoryExpanded(category.id)"
+          [class.drag-over]="isDragOver(category.id)"
         >
-          <div class="category-header" (click)="toggleCategory(category.id)">
-            <div class="header-content">
+          <div
+            class="category-header"
+            (dragover)="onCategoryDragOver($event, category.id)"
+            (dragleave)="onCategoryDragLeave($event)"
+            (drop)="onCategoryDrop($event, category.id)"
+          >
+            <div class="drop-indicator" *ngIf="isDragOver(category.id)">
+              <mat-icon>add</mat-icon>
+              <span>Drop task here</span>
+            </div>
+            <div class="header-content" (click)="toggleCategory(category.id)">
               <div class="accordion-icon">
                 <svg
                   width="16"
@@ -38,6 +48,26 @@
                 </div>
               </div>
             </div>
+            <div class="header-actions">
+              <app-button
+                type="text"
+                size="small"
+                class="action-button"
+                (clicked)="editCategory.emit(category)"
+                title="Edit category"
+              >
+                edit
+              </app-button>
+              <app-button
+                type="danger"
+                size="small"
+                class="action-button delete"
+                (clicked)="deleteCategory.emit(category.id)"
+                title="Delete category"
+              >
+                delete
+              </app-button>
+            </div>
           </div>
           <div
             class="category-content"
@@ -55,8 +85,17 @@
                   <div
                     *ngFor="let task of category.tasks || []"
                     class="task-item"
+                    draggable="true"
+                    (dragstart)="onTaskDragStart($event, task.id)"
                   >
                     <div class="task-main">
+                      <div class="drag-handle" title="Drag to move task">
+                        <img
+                          style="width: 24px; height: 24px"
+                          src="/assets/icons/drag.svg"
+                          alt=""
+                        />
+                      </div>
                       <div class="task-title">{{ task.title }}</div>
                       <div class="task-meta">
                         <app-status-badge

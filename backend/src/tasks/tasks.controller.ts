@@ -53,9 +53,9 @@ export class TasksController {
 
   @Put(':id/category/:categoryId')
   async changeCategory(
-    @Param('id') taskId: number,
-    @Param('categoryId') categoryId: number,
-  ): Promise<Task> {
+    @Param('id') taskId: string,
+    @Param('categoryId') categoryId: string,
+  ): Promise<Task | null> {
     return this.tasksService.changeCategory(taskId, categoryId);
   }
 

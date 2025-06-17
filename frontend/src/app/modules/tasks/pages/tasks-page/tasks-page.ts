@@ -53,7 +53,6 @@ export class TasksPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('hitting the api');
     this.loadTasks();
     this.loadCategories();
   }
@@ -115,7 +114,6 @@ export class TasksPageComponent implements OnInit {
   }
 
   onFilterChange(filters: TaskFilterOptions): void {
-    console.log('onFilterChange', filters);
     this.filters = filters;
     this.currentPage = 1;
     this.loadTasks();

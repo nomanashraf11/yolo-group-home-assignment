@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like, FindOptionsWhere } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Category } from './category.entity';
 import { CategoryFilterDto } from './dtos/category-filter.dto';
 import { CreateCategoryDto } from './dtos/create-category.dto';
@@ -14,19 +14,62 @@ export class CategoriesService {
   ) {}
 
   async findAll(filter: CategoryFilterDto): Promise<[Category[], number]> {
-    const { page = 1, limit = 10, title } = filter;
+    const {
+      page = 1,
+      limit = 10,
+      title,
+      sortBy,
+      sortDirection,
+      sortByTitle,
+      sortByCreatedAt,
+    } = filter;
+
     const skip = (page - 1) * limit;
 
-    const where: FindOptionsWhere<Category> = {};
-    if (title) where.title = Like(`%${title}%`);
+    const query = this.categoriesRepository
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.tasks', 'tasks');
 
-    return this.categoriesRepository.findAndCount({
-      where,
-      skip,
-      take: limit,
-      order: { title: 'ASC' },
-      relations: ['tasks'],
-    });
+    if (title) {
+      query.andWhere('category.title ILIKE :title', { title: `%${title}%` });
+    }
+
+    query.skip(skip).take(limit);
+
+    let hasSort = false;
+
+    // Handle sortBy and sortDirection from frontend
+    if (sortBy && sortDirection) {
+      if (sortBy === 'title') {
+        query.orderBy('category.title', sortDirection);
+        hasSort = true;
+      } else if (sortBy === 'createdAt') {
+        query.orderBy('category.createdAt', sortDirection);
+        hasSort = true;
+      }
+    }
+
+    // Handle legacy sorting parameters
+    if (typeof sortByCreatedAt === 'string') {
+      query.orderBy('category.createdAt', sortByCreatedAt);
+      hasSort = true;
+    }
+
+    if (typeof sortByTitle === 'string') {
+      if (hasSort) {
+        query.addOrderBy('category.title', sortByTitle);
+      } else {
+        query.orderBy('category.title', sortByTitle);
+        hasSort = true;
+      }
+    }
+
+    if (!hasSort) {
+      query.orderBy('category.title', 'ASC');
+    }
+
+    const [data, count] = await query.getManyAndCount();
+    return [data, count];
   }
 
   async findOne(id: number): Promise<Category> {

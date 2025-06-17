@@ -1,45 +1,84 @@
-<h2 mat-dialog-title>
-  {{ isEditMode ? 'Edit Category' : 'Create New Category' }}
-</h2>
+<div class="category-form-container">
+  <div class="form-header">
+    <h2>{{ isEditMode ? 'Edit Category' : 'Create New Category' }}</h2>
+    <button class="close-btn" (click)="onCancel()">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M18 6L6 18M6 6L18 18"
+          stroke="#64748B"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
 
-<mat-dialog-content>
-  <form [formGroup]="categoryForm">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Title</mat-label>
-      <input matInput formControlName="title" required maxlength="100" />
-      <mat-error *ngIf="title?.hasError('required')">
-        Title is required
-      </mat-error>
-      <mat-error *ngIf="title?.hasError('maxlength')">
-        Title must be less than 100 characters
-      </mat-error>
-      <mat-hint align="end">{{ title?.value?.length || 0 }}/100</mat-hint>
-    </mat-form-field>
+  <form [formGroup]="categoryForm" class="form-content">
+    <div>
+      <app-input-field
+        label="Title"
+        placeholder="Enter category title"
+        icon="title"
+        [formControl]="title"
+        [required]="true"
+        [maxLength]="100"
+      >
+      </app-input-field>
+      <div
+        *ngIf="title?.invalid && (title?.dirty || title?.touched)"
+        class="error-message"
+      >
+        <span *ngIf="title?.errors?.['required']">Title is required</span>
+        <span *ngIf="title?.errors?.['maxlength']"
+          >Title must be less than 100 characters</span
+        >
+      </div>
+      <div class="character-count">{{ title?.value?.length || 0 }}/100</div>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        rows="4"
-        maxlength="500"
-      ></textarea>
-      <mat-error *ngIf="description?.hasError('maxlength')">
-        Description must be less than 500 characters
-      </mat-error>
-      <mat-hint align="end">{{ description?.value?.length || 0 }}/500</mat-hint>
-    </mat-form-field>
+    <div>
+      <app-input-field
+        label="Description"
+        placeholder="Enter category description"
+        icon="description"
+        [formControl]="description"
+        [textarea]="true"
+        [rows]="4"
+        [maxLength]="500"
+      >
+      </app-input-field>
+      <div
+        *ngIf="description?.invalid && (description?.dirty || description?.touched)"
+        class="error-message"
+      >
+        <span *ngIf="description?.errors?.['maxlength']"
+          >Description must be less than 500 characters</span
+        >
+      </div>
+      <div class="character-count">
+        {{ description?.value?.length || 0 }}/500
+      </div>
+    </div>
   </form>
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="onSubmit()"
-    [disabled]="categoryForm.invalid"
-  >
-    {{ isEditMode ? 'Update' : 'Create' }}
-  </button>
-</mat-dialog-actions>
+  <div class="form-actions">
+    <app-button type="secondary" size="medium" (click)="onCancel()">
+      Cancel
+    </app-button>
+    <app-button
+      type="primary"
+      size="medium"
+      [disabled]="categoryForm.invalid"
+      (click)="onSubmit()"
+    >
+      {{ isEditMode ? 'Update' : 'Create' }}
+    </app-button>
+  </div>
+</div>

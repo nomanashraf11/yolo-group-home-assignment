@@ -20,7 +20,6 @@ export class TasksService {
       .set('page', page.toString())
       .set('limit', limit.toString());
 
-    console.log(filters);
     if (filters) {
       if (filters.sortBy && filters.sortDirection) {
         if (filters.sortBy === 'title') {
@@ -74,8 +73,13 @@ export class TasksService {
     taskId: string,
     categoryId: string | null
   ): Observable<Task> {
-    return this.http.patch<Task>(`${this.baseUrl}/${taskId}/category`, {
-      categoryId,
-    });
+    if (categoryId) {
+      return this.http.put<Task>(
+        `${this.baseUrl}/${taskId}/category/${categoryId}`,
+        {}
+      );
+    } else {
+      return this.http.put<Task>(`${this.baseUrl}/${taskId}/category/null`, {});
+    }
   }
 }

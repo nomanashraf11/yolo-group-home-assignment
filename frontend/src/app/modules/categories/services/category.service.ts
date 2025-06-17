@@ -14,7 +14,9 @@ export class CategoriesService {
   getCategories(
     page: number = 1,
     limit: number = 10,
-    title?: string
+    title?: string,
+    sortBy?: string,
+    sortDirection?: string
   ): Observable<CategoriesResponse> {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -22,6 +24,14 @@ export class CategoriesService {
 
     if (title) {
       params = params.set('title', title);
+    }
+
+    if (sortBy) {
+      params = params.set('sortBy', sortBy);
+    }
+
+    if (sortDirection) {
+      params = params.set('sortDirection', sortDirection);
     }
 
     return this.http.get<CategoriesResponse>(this.baseUrl, { params });

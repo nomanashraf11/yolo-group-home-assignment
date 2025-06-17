@@ -14,6 +14,13 @@ import { CategoriesListComponent } from '../../components/categories-list/catego
 import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel';
 import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination';
+
+interface CategoryFilterOptions {
+  title?: string;
+  sortBy?: 'title' | 'createdAt' | null;
+  sortDirection?: 'asc' | 'desc' | null;
+}
 
 @Component({
   selector: 'app-categories-page',
@@ -29,6 +36,7 @@ import { ConfirmationDialogComponent } from '../../../../shared/components/confi
     CategoriesListComponent,
     UiComponentsModule,
     FilterPanelComponent,
+    PaginationComponent,
   ],
 })
 export class CategoriesPageComponent implements OnInit {
@@ -37,7 +45,9 @@ export class CategoriesPageComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
   isLoading = false;
-  searchTitle = '';
+  filters: CategoryFilterOptions = {};
+  sortBy: 'title' | 'createdAt' | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private categoriesService: CategoriesService,
@@ -49,9 +59,21 @@ export class CategoriesPageComponent implements OnInit {
   }
 
   loadCategories(): void {
+    const params = {
+      ...this.filters,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection,
+    };
+
     this.isLoading = true;
     this.categoriesService
-      .getCategories(this.currentPage, this.itemsPerPage, this.searchTitle)
+      .getCategories(
+        this.currentPage,
+        this.itemsPerPage,
+        this.filters.title,
+        this.sortBy || undefined,
+        this.sortDirection || undefined
+      )
       .subscribe({
         next: (response) => {
           this.categories = response.data;
@@ -69,6 +91,21 @@ export class CategoriesPageComponent implements OnInit {
     this.loadCategories();
   }
 
+  onFilterChange(filters: CategoryFilterOptions): void {
+    this.filters = filters;
+    this.currentPage = 1;
+    this.loadCategories();
+  }
+
+  onSortChange(event: {
+    sortBy: 'title' | 'createdAt';
+    sortDirection: 'asc' | 'desc';
+  }) {
+    this.sortBy = event.sortBy;
+    this.sortDirection = event.sortDirection;
+    this.loadCategories();
+  }
+
   onSearch(): void {
     this.currentPage = 1;
     this.loadCategories();
@@ -82,7 +119,29 @@ export class CategoriesPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadCategories();
+        if (category) {
+          // Edit mode - update existing category
+          this.categoriesService.updateCategory(category.id, result).subscribe({
+            next: () => {
+              this.loadCategories();
+            },
+            error: (error) => {
+              console.error('Error updating category:', error);
+              // You might want to show a toast/notification here
+            },
+          });
+        } else {
+          // Create mode - create new category
+          this.categoriesService.createCategory(result).subscribe({
+            next: () => {
+              this.loadCategories();
+            },
+            error: (error) => {
+              console.error('Error creating category:', error);
+              // You might want to show a toast/notification here
+            },
+          });
+        }
       }
     });
   }

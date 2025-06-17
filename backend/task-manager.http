@@ -46,7 +46,7 @@ DELETE http://localhost:3000/tasks/2
 Accept: application/json
 
 ### Assign task to category
-PUT http://localhost:3000/tasks/3/category/1
+PUT http://localhost:3000/tasks/41/category/2
 Accept: application/json
 
 ### Remove task from category
@@ -54,8 +54,7 @@ PUT http://localhost:3000/tasks/1/remove-category
 Accept: application/json
 
 
-### =========================== Categories API ============================
-
+### =========================== Categories API ============================41
 ### Get all categories with pagination
 GET http://localhost:3000/categories?page=1&limit=10
 Accept: application/json

@@ -130,7 +130,6 @@ export class FilterPanelComponent implements OnInit {
   }
 
   onReset(): void {
-    console.log('onReset');
     this.filterForm.reset({
       title: '',
       status: '',

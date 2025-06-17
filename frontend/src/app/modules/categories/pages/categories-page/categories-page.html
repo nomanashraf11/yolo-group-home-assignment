@@ -17,15 +17,9 @@
   </div>
 
   <div class="filters-section">
-    <div class="search-bar">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Search by title</mat-label>
-        <input matInput [(ngModel)]="searchTitle" (keyup.enter)="onSearch()" />
-        <button matSuffix mat-icon-button (click)="onSearch()">
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
+    <app-filter-panel
+      (filterChange)="onFilterChange($event)"
+    ></app-filter-panel>
   </div>
 
   <div class="categories-section">
@@ -42,16 +36,17 @@
         [isLoading]="isLoading"
         (editCategory)="openCategoryForm($event)"
         (deleteCategory)="deleteCategory($event)"
+        (refreshCategories)="loadCategories()"
       >
       </app-categories-list>
 
-      <!-- <app-pagination
+      <app-pagination
         *ngIf="totalCategories > itemsPerPage"
         [currentPage]="currentPage"
         [itemsPerPage]="itemsPerPage"
         [totalItems]="totalCategories"
         (pageChange)="onPageChange($event)"
-      ></app-pagination> -->
+      ></app-pagination>
     </div>
   </div>
 </div>

@@ -73,12 +73,11 @@ export class TasksService {
   }
 
   async findOne(id: number): Promise<Task> {
-    console.log(id, 'id');
     const task = await this.tasksRepository.findOne({
       where: { id },
       relations: ['category'],
     });
-    console.log(task);
+
     if (!task) {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
@@ -92,7 +91,7 @@ export class TasksService {
 
   async update(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
     const task = await this.findOne(id);
-    console.log(task);
+
     return this.tasksRepository.save({ ...task, ...updateTaskDto });
   }
 
@@ -124,9 +123,30 @@ export class TasksService {
     });
   }
 
-  async changeCategory(taskId: number, categoryId: number): Promise<Task> {
-    const task = await this.findOne(taskId);
-    task.categoryId = categoryId;
-    return this.tasksRepository.save(task);
+  async changeCategory(
+    taskId: string | number,
+    categoryId: string | number,
+  ): Promise<Task | null> {
+    try {
+      const taskIdNum =
+        typeof taskId === 'string' ? parseInt(taskId, 10) : taskId;
+      const categoryIdNum =
+        typeof categoryId === 'string' ? parseInt(categoryId, 10) : categoryId;
+
+      await this.tasksRepository.query(
+        'UPDATE task SET "categoryId" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE id = $2',
+        [categoryIdNum, taskIdNum],
+      );
+
+      const updatedTask = await this.tasksRepository.findOne({
+        where: { id: taskIdNum },
+        relations: ['category'],
+      });
+
+      return updatedTask;
+    } catch (error) {
+      console.error('Error changing task category:', error);
+      throw error;
+    }
   }
 }
