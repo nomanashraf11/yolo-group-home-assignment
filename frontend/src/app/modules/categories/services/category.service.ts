@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CategoriesResponse, Category } from '../models/category.model';
+import {
+  CategoriesResponse,
+  Category,
+  CategoryFilterOptions,
+} from '../models/category.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,24 +18,28 @@ export class CategoriesService {
   getCategories(
     page: number = 1,
     limit: number = 10,
-    title?: string,
-    sortBy?: string,
-    sortDirection?: string
+    filters?: CategoryFilterOptions
   ): Observable<CategoriesResponse> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
 
-    if (title) {
-      params = params.set('title', title);
-    }
-
-    if (sortBy) {
-      params = params.set('sortBy', sortBy);
-    }
-
-    if (sortDirection) {
-      params = params.set('sortDirection', sortDirection);
+    if (filters) {
+      if (filters.sortBy && filters.sortDirection) {
+        if (filters.sortBy === 'title') {
+          params = params.set(
+            'sortByTitle',
+            filters.sortDirection === 'asc' ? 'ASC' : 'DESC'
+          );
+        }
+        if (filters.sortBy === 'createdAt') {
+          params = params.set(
+            'sortByCreatedAt',
+            filters.sortDirection === 'asc' ? 'ASC' : 'DESC'
+          );
+        }
+      }
+      if (filters.title) params = params.set('title', filters.title);
     }
 
     return this.http.get<CategoriesResponse>(this.baseUrl, { params });

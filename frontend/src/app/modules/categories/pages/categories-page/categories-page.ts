@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Category, CategoriesResponse } from '../../models/category.model';
+import {
+  Category,
+  CategoriesResponse,
+  CategoryFilterOptions,
+} from '../../models/category.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoriesService } from '../../services/category.service';
 import { CategoryFormComponent } from '../../components/category-form/category-form';
@@ -11,16 +15,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { CategoriesListComponent } from '../../components/categories-list/categories-list';
-import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel';
+import {
+  FilterPanelComponent,
+  FilterConfig,
+} from '../../../../shared/components/filter-panel/filter-panel';
 import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination';
-
-interface CategoryFilterOptions {
-  title?: string;
-  sortBy?: 'title' | 'createdAt' | null;
-  sortDirection?: 'asc' | 'desc' | null;
-}
 
 @Component({
   selector: 'app-categories-page',
@@ -49,6 +50,15 @@ export class CategoriesPageComponent implements OnInit {
   sortBy: 'title' | 'createdAt' | null = null;
   sortDirection: 'asc' | 'desc' = 'asc';
 
+  filterConfig: FilterConfig = {
+    showTitle: true,
+    showStatus: false,
+    showCategory: false,
+    showDateRange: false,
+    titleLabel: 'Search categories',
+    titlePlaceholder: 'Search by category title',
+  };
+
   constructor(
     private categoriesService: CategoriesService,
     private dialog: MatDialog
@@ -67,13 +77,7 @@ export class CategoriesPageComponent implements OnInit {
 
     this.isLoading = true;
     this.categoriesService
-      .getCategories(
-        this.currentPage,
-        this.itemsPerPage,
-        this.filters.title,
-        this.sortBy || undefined,
-        this.sortDirection || undefined
-      )
+      .getCategories(this.currentPage, this.itemsPerPage, params)
       .subscribe({
         next: (response) => {
           this.categories = response.data;

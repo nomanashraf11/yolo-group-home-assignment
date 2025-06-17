@@ -9,6 +9,12 @@ export interface Category {
   updatedAt?: Date | string;
 }
 
+export interface CategoryFilterOptions {
+  title?: string;
+  sortBy?: 'title' | 'createdAt' | null;
+  sortDirection?: 'asc' | 'desc' | null;
+}
+
 export interface CategoriesResponse {
   data: Category[];
   count: number;

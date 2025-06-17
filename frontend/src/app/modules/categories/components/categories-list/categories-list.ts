@@ -42,9 +42,16 @@ import { TasksService } from '../../../tasks/services/task.service';
 export class CategoriesListComponent {
   @Input() categories: Category[] = [];
   @Input() isLoading = false;
+  @Input() sortBy: 'title' | 'createdAt' | null = null;
+  @Input() sortDirection: 'asc' | 'desc' = 'asc';
+
   @Output() editCategory = new EventEmitter<Category>();
   @Output() deleteCategory = new EventEmitter<string>();
   @Output() refreshCategories = new EventEmitter<void>();
+  @Output() sortChange = new EventEmitter<{
+    sortBy: 'title' | 'createdAt';
+    sortDirection: 'asc' | 'desc';
+  }>();
 
   expandedCategoryId: string | null = null;
   draggedTaskId: string | null = null;
@@ -60,6 +67,14 @@ export class CategoriesListComponent {
     return category.id;
   }
 
+  onSort(field: 'title' | 'createdAt') {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (this.sortBy === field) {
+      direction = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    this.sortChange.emit({ sortBy: field, sortDirection: direction });
+  }
+
   toggleCategory(categoryId: string): void {
     this.expandedCategoryId =
       this.expandedCategoryId === categoryId ? null : categoryId;
@@ -68,7 +83,6 @@ export class CategoriesListComponent {
   isCategoryExpanded(categoryId: string): boolean {
     return this.expandedCategoryId === categoryId;
   }
-
 
   onTaskDragStart(event: DragEvent, taskId: string): void {
     console.log('=== DRAG START ===');
@@ -123,14 +137,12 @@ export class CategoriesListComponent {
             this.refreshCategories.emit();
           },
           error: (error) => {
-            console.error('=== API ERROR ===');
-            console.error('Error:', error);
             console.error('Error status:', error.status);
             console.error('Error message:', error.message);
           },
         });
     } else {
-      console.log('Invalid drop - same category or no task dragged');
+      console.log('Invalid drop - ');
     }
 
     this.draggedTaskId = null;
@@ -168,13 +180,11 @@ export class CategoriesListComponent {
 
     this.tasksService.changeTaskCategory(taskId, categoryId).subscribe({
       next: (response) => {
-        console.log('=== MOVE SUCCESS ===');
-        console.log('Response:', response);
+        console.log('response', response);
         this.refreshCategories.emit();
       },
       error: (error) => {
-        console.error('=== MOVE ERROR ===');
-        console.error('Error:', error);
+        console.error('error', error);
       },
     });
   }

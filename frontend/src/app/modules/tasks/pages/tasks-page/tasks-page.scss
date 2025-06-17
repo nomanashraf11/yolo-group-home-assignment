@@ -4,6 +4,10 @@
   margin: 0 auto;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
   .header {
     margin-bottom: 2rem;
 
@@ -12,12 +16,23 @@
       justify-content: space-between;
       align-items: flex-start;
 
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
       .header-title {
         h1 {
           margin: 0 0 0.25rem 0;
           font-size: 2rem;
           font-weight: 700;
           color: #1a1a1a;
+
+          @media (max-width: 768px) {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+          }
         }
 
         .subtitle {
@@ -25,6 +40,16 @@
           font-size: 0.95rem;
           color: #64748b;
           font-weight: 400;
+
+          @media (max-width: 768px) {
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      app-button {
+        @media (max-width: 768px) {
+          align-self: flex-start;
         }
       }
 
@@ -36,6 +61,11 @@
         box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
         transition: all 0.2s ease;
 
+        @media (max-width: 768px) {
+          height: 40px;
+          padding: 0 1rem;
+        }
+
         &:hover {
           transform: translateY(-1px);
           box-shadow: 0 4px 8px rgba(79, 70, 229, 0.25);
@@ -44,6 +74,11 @@
         mat-icon {
           margin-right: 8px;
           font-size: 1.1rem;
+
+          @media (max-width: 768px) {
+            margin-right: 6px;
+            font-size: 1rem;
+          }
         }
       }
     }
@@ -54,6 +89,11 @@
     border-radius: 10px;
     padding: 0.5rem 0.5rem;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    @media (max-width: 768px) {
+      margin-bottom: 1rem;
+      padding: 0.25rem;
+    }
   }
 
   .tasks-section {
@@ -63,11 +103,20 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       padding: 1.5rem;
 
+      @media (max-width: 768px) {
+        padding: 1rem;
+        border-radius: 8px;
+      }
+
       .tasks-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1.5rem;
+
+        @media (max-width: 768px) {
+          margin-bottom: 1rem;
+        }
 
         .tasks-title {
           font-size: 1.4rem;
@@ -75,17 +124,30 @@
           color: #1a1a1a;
           margin: 0;
 
+          @media (max-width: 768px) {
+            font-size: 1.2rem;
+          }
+
           .task-count {
             font-size: 0.9rem;
             color: #64748b;
             font-weight: 400;
             margin-left: 0.5rem;
+
+            @media (max-width: 768px) {
+              font-size: 0.8rem;
+              margin-left: 0.25rem;
+            }
           }
         }
 
         .view-options {
           display: flex;
           gap: 0.5rem;
+
+          @media (max-width: 768px) {
+            gap: 0.25rem;
+          }
 
           .view-option {
             display: flex;
@@ -96,6 +158,12 @@
             border-radius: 6px;
             padding: 0.5rem 0.75rem;
             transition: all 0.2s ease;
+
+            @media (max-width: 768px) {
+              font-size: 0.8rem;
+              padding: 0.4rem 0.6rem;
+              gap: 0.25rem;
+            }
 
             &.active {
               background: #f1f5f9;
@@ -111,6 +179,10 @@
               font-size: 1.1rem;
               width: auto;
               height: auto;
+
+              @media (max-width: 768px) {
+                font-size: 1rem;
+              }
             }
           }
         }
@@ -124,8 +196,16 @@
         padding: 3rem;
         color: #64748b;
 
+        @media (max-width: 768px) {
+          padding: 2rem 1rem;
+        }
+
         mat-spinner {
           margin-bottom: 1.5rem;
+
+          @media (max-width: 768px) {
+            margin-bottom: 1rem;
+          }
         }
       }
 
@@ -136,18 +216,34 @@
         border-radius: 12px;
         margin-bottom: 1.5rem;
 
+        @media (max-width: 768px) {
+          padding: 2rem 1rem;
+          border-radius: 8px;
+          margin-bottom: 1rem;
+        }
+
         mat-icon {
           font-size: 3.5rem;
           width: auto;
           height: auto;
           color: #cbd5e1;
           margin-bottom: 1.5rem;
+
+          @media (max-width: 768px) {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+          }
         }
 
         h3 {
           color: #334155;
           margin-bottom: 0.75rem;
           font-size: 1.3rem;
+
+          @media (max-width: 768px) {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+          }
         }
 
         p {
@@ -157,11 +253,22 @@
           margin-left: auto;
           margin-right: auto;
           line-height: 1.5;
+
+          @media (max-width: 768px) {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            max-width: 100%;
+          }
         }
 
         button {
           border-radius: 8px;
           padding: 0.5rem 1.5rem;
+
+          @media (max-width: 768px) {
+            padding: 0.4rem 1.25rem;
+            font-size: 0.9rem;
+          }
         }
       }
 
@@ -170,6 +277,11 @@
         grid-template-columns: 1fr;
         gap: 0.75rem;
         margin-bottom: 2rem;
+
+        @media (max-width: 768px) {
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+        }
       }
 
       .task-card {
@@ -183,6 +295,11 @@
         position: relative;
         overflow: hidden;
 
+        @media (max-width: 768px) {
+          padding: 1rem;
+          border-left-width: 3px;
+        }
+
         &:hover {
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
           transform: translateY(-2px);
@@ -194,11 +311,23 @@
           align-items: center;
           margin-bottom: 0.75rem;
 
+          @media (max-width: 768px) {
+            margin-bottom: 0.5rem;
+          }
+
           .task-checkbox {
             margin-right: 0.75rem;
 
+            @media (max-width: 768px) {
+              margin-right: 0.5rem;
+            }
+
             mat-checkbox {
               margin-right: 0.5rem;
+
+              @media (max-width: 768px) {
+                margin-right: 0.25rem;
+              }
             }
           }
 
@@ -211,20 +340,38 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+
+            @media (max-width: 768px) {
+              font-size: 1rem;
+            }
           }
 
           .task-actions {
             opacity: 0;
             transition: opacity 0.2s ease;
 
+            @media (max-width: 768px) {
+              opacity: 1;
+            }
+
             button {
               width: 34px;
               height: 34px;
               line-height: 34px;
 
+              @media (max-width: 768px) {
+                width: 32px;
+                height: 32px;
+                line-height: 32px;
+              }
+
               mat-icon {
                 font-size: 18px;
                 color: #64748b;
+
+                @media (max-width: 768px) {
+                  font-size: 16px;
+                }
               }
             }
           }
@@ -244,6 +391,12 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+
+            @media (max-width: 768px) {
+              font-size: 0.85rem;
+              margin-bottom: 0.75rem;
+              -webkit-line-clamp: 1;
+            }
           }
 
           .task-footer {
@@ -253,6 +406,11 @@
               gap: 0.75rem;
               font-size: 0.8rem;
 
+              @media (max-width: 768px) {
+                gap: 0.5rem;
+                font-size: 0.75rem;
+              }
+
               .meta-item {
                 display: flex;
                 align-items: center;
@@ -261,11 +419,20 @@
                 border-radius: 6px;
                 background: #f8fafc;
 
+                @media (max-width: 768px) {
+                  padding: 0.25rem 0.5rem;
+                  gap: 0.2rem;
+                }
+
                 mat-icon {
                   font-size: 0.95rem;
                   width: auto;
                   height: auto;
                   color: #64748b;
+
+                  @media (max-width: 768px) {
+                    font-size: 0.85rem;
+                  }
                 }
 
                 &.due-date {
@@ -275,6 +442,10 @@
 
                 &.status {
                   padding: 0.35rem 0.75rem;
+
+                  @media (max-width: 768px) {
+                    padding: 0.25rem 0.5rem;
+                  }
                 }
 
                 &.category {
@@ -283,6 +454,12 @@
                     height: 10px;
                     border-radius: 50%;
                     margin-right: 6px;
+
+                    @media (max-width: 768px) {
+                      width: 8px;
+                      height: 8px;
+                      margin-right: 4px;
+                    }
                   }
                 }
               }

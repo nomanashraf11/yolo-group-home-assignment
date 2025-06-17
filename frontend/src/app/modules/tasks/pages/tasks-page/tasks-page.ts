@@ -10,7 +10,10 @@ import { CategoriesService } from '../../../categories/services/category.service
 import { TaskFormComponent } from '../../components/task-form/task-form';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel';
+import {
+  FilterPanelComponent,
+  FilterConfig,
+} from '../../../../shared/components/filter-panel/filter-panel';
 import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination';
@@ -46,6 +49,16 @@ export class TasksPageComponent implements OnInit {
   filters: TaskFilterOptions = {};
   sortBy: 'title' | 'dueDate' | null = null;
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  filterConfig: FilterConfig = {
+    showTitle: true,
+    showStatus: true,
+    showCategory: true,
+    showDateRange: true,
+    titleLabel: 'Search tasks',
+    titlePlaceholder: 'Search by title',
+  };
+
   constructor(
     private tasksService: TasksService,
     private categoriesService: CategoriesService,

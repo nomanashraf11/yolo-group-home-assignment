@@ -1,6 +1,42 @@
 <div class="categories-container">
   <ng-container *ngIf="!isLoading; else loading">
     <ng-container *ngIf="categories.length > 0; else noCategories">
+      <div class="categories-header">
+        <div
+          class="header-title"
+          style="cursor: pointer"
+          (click)="onSort('title')"
+        >
+          Category
+          <span class="sort-icon">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                *ngIf="sortBy === 'title' && sortDirection === 'asc'"
+                d="M12 4l-8 8h16z"
+                fill="#64748B"
+              />
+              <path
+                *ngIf="sortBy === 'title' && sortDirection === 'desc'"
+                d="M12 20l8-8H4z"
+                fill="#64748B"
+              />
+              <path
+                *ngIf="sortBy !== 'title'"
+                d="M12 4l-8 8h16z"
+                fill="#9ca3af"
+              />
+            </svg>
+          </span>
+        </div>
+        <div class="header-actions">Actions</div>
+      </div>
+
       <div class="category-accordion">
         <div
           class="category-item"
