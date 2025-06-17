@@ -4,7 +4,7 @@ export interface Category {
   id: string;
   title: string;
   description?: string;
-  task: Task[];
+  tasks: Task[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
 }
