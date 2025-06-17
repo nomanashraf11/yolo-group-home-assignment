@@ -1,14 +1,15 @@
+import { Task } from '../../tasks/models/task.model';
+
 export interface Category {
   id: string;
   title: string;
-  description: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
+  description?: string;
+  task: Task[];
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }
 
 export interface CategoriesResponse {
-  categories: Category[];
-  total: number;
-  page: number;
-  limit: number;
+  data: Category[];
+  count: number;
 }

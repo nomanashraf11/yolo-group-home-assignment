@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 60px;
+  height: 90px;
   background-color: #fff;
   border-bottom: 1px solid #e0e0e0;
   box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
@@ -52,12 +52,12 @@
     transition: color 0.25s ease;
 
     &:hover {
-      color: #1976d2;
+      color: #0c0a7f;
     }
   }
 
   .active-link {
-    color: #1976d2;
+    color: #0c0a7f;
     font-weight: 700;
 
     &::after {
@@ -67,7 +67,7 @@
       left: 0;
       right: 0;
       height: 3px;
-      background-color: #1976d2;
+      background-color: #0c0a7f;
       border-radius: 2px;
     }
   }
@@ -84,11 +84,11 @@
     transition: background-color 0.25s ease;
 
     &.btn-primary {
-      background-color: #1976d2;
+      background-color: #0c0a7f;
       color: white;
 
       &:hover {
-        background-color: #155fa0;
+        background-color: #0c0a7f;
       }
     }
   }

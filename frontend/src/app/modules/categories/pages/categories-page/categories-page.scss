@@ -2,6 +2,80 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  .category-card {
+    border-left-color: currentColor;
+
+    .category-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      margin-right: 12px;
+    }
+
+    .category-tasks-preview {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+
+      h4 {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 0.75rem;
+      }
+
+      .preview-task {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0;
+        font-size: 0.85rem;
+
+        mat-checkbox {
+          margin-right: 0.75rem;
+        }
+
+        .completed {
+          text-decoration: line-through;
+          color: #94a3b8;
+        }
+      }
+
+      .view-all-btn {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: #4f46e5;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+
+        &:hover {
+          background: #f1f5f9;
+        }
+      }
+    }
+  }
+
+  .tasks-list.grid-view {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+
+    .category-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .task-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        .task-footer {
+          margin-top: auto;
+        }
+      }
+    }
+  }
 
   .header {
     display: flex;

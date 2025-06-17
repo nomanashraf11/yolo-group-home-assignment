@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing-module';
 import { SharedModule } from './shared/shared-module';
 import { ApiInterceptor } from './core/interceptors/api-interceptor.spec';
 import { AppComponent } from './app.component';
+import { UiComponentsModule } from './shared/ui-components/ui-components.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     SharedModule,
+    UiComponentsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },

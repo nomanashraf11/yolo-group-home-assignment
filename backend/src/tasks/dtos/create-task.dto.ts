@@ -1,9 +1,10 @@
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsOptional,
-  IsDateString,
   IsEnum,
   IsNumber,
+  IsISO8601,
 } from 'class-validator';
 
 export class CreateTaskDto {
@@ -15,7 +16,7 @@ export class CreateTaskDto {
   description?: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsISO8601()
   dueDate?: Date;
 
   @IsOptional()
@@ -25,6 +26,7 @@ export class CreateTaskDto {
   status?: 'To Do' | 'In Progress' | 'Done';
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   categoryId?: number;
 }

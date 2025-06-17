@@ -37,13 +37,15 @@ import { TasksListComponent } from '../../components/tasks-list/tasks-list';
 })
 export class TasksPageComponent implements OnInit {
   tasks: Task[] = [];
-  // categories: Category[] = [];
+  categories: Category[] = [];
   totalTasks = 0;
+  totalCategories = 0;
   currentPage = 1;
   itemsPerPage = 10;
   isLoading = false;
   filters: TaskFilterOptions = {};
-
+  sortBy: 'title' | 'dueDate' | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
   constructor(
     private tasksService: TasksService,
     private categoriesService: CategoriesService,
@@ -51,13 +53,21 @@ export class TasksPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('hitting the api');
     this.loadTasks();
+    this.loadCategories();
   }
 
   loadTasks(): void {
+    const params = {
+      ...this.filters,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection,
+    };
+
     this.isLoading = true;
     this.tasksService
-      .getTasks(this.currentPage, this.itemsPerPage, this.filters)
+      .getTasks(this.currentPage, this.itemsPerPage, params)
       .subscribe({
         next: (response) => {
           this.tasks = response.data;
@@ -70,11 +80,34 @@ export class TasksPageComponent implements OnInit {
       });
   }
 
-  // loadCategories(): void {
-  //   this.categoriesService.getCategories(1, 100).subscribe((response) => {
-  //     this.categories = response.categories;
-  //   });
-  // }
+  loadCategories(): void {
+    this.categoriesService.getCategories(1, 100).subscribe({
+      next: (response) => {
+        this.categories = response.data;
+        this.totalCategories = response.count;
+      },
+      error: () => {},
+    });
+  }
+  toggleSort(field: 'title' | 'dueDate') {
+    if (this.sortBy === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortBy = field;
+      this.sortDirection = 'asc';
+    }
+
+    this.loadTasks();
+  }
+
+  onSortChange(event: {
+    sortBy: 'title' | 'dueDate';
+    sortDirection: 'asc' | 'desc';
+  }) {
+    this.sortBy = event.sortBy;
+    this.sortDirection = event.sortDirection;
+    this.loadTasks();
+  }
 
   onPageChange(page: number): void {
     this.currentPage = page;
@@ -82,16 +115,18 @@ export class TasksPageComponent implements OnInit {
   }
 
   onFilterChange(filters: TaskFilterOptions): void {
+    console.log('onFilterChange', filters);
     this.filters = filters;
     this.currentPage = 1;
     this.loadTasks();
   }
 
-  openTaskForm(task?: Task): void {
+  openTaskForm(categories: Category[], task?: Task): void {
     const dialogRef = this.dialog.open(TaskFormComponent, {
       width: '600px',
       data: {
         task,
+        categories,
       },
     });
 

@@ -24,7 +24,6 @@ export class TasksController {
   async findAll(
     @Query() filter: TaskFilterDto,
   ): Promise<{ data: Task[]; count: number }> {
-    console.log(filter);
     const [data, count] = await this.tasksService.findAll(filter);
     return { data, count };
   }

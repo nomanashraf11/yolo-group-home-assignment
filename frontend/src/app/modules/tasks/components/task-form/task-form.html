@@ -21,48 +21,63 @@
   </div>
 
   <form [formGroup]="taskForm" class="form-content">
-    <app-input-field
-      label="Title"
-      placeholder="Enter task title"
-      icon="title"
-      [formControl]="title"
-      [required]="true"
-      [maxLength]="100"
-    >
+    <div>
+      <app-input-field
+        label="Title"
+        placeholder="Enter task title"
+        icon="title"
+        [formControl]="title"
+        [required]="true"
+        [maxLength]="100"
+      >
+      </app-input-field>
       <div
         *ngIf="title?.invalid && (title?.dirty || title?.touched)"
         class="error-message"
+        style="display: flex; flex-direction: row"
       >
         <span *ngIf="title?.errors?.['required']">Title is required</span>
+        <span *ngIf="title?.errors?.['minlength']"
+          >Title must be at least 3 characters</span
+        >
         <span *ngIf="title?.errors?.['maxlength']"
-          >Must be less than 100 characters</span
+          >Title must be less than 100 characters</span
+        >
+        <span *ngIf="title?.errors?.['pattern']"
+          >Title can only contain letters, numbers, and spaces</span
         >
       </div>
       <div class="character-count">{{ title?.value?.length || 0 }}/100</div>
-    </app-input-field>
-
-    <app-input-field
-      label="Description"
-      placeholder="Enter task description"
-      icon="description"
-      [formControl]="description"
-      [textarea]="true"
-      [rows]="4"
-      [maxLength]="500"
-    >
+    </div>
+    <div>
+      <app-input-field
+        label="Description"
+        placeholder="Enter task description"
+        icon="description"
+        [formControl]="description"
+        [textarea]="true"
+        [rows]="4"
+        [maxLength]="500"
+      >
+      </app-input-field>
       <div
         *ngIf="description?.invalid && (description?.dirty || description?.touched)"
         class="error-message"
       >
+        <span *ngIf="description?.errors?.['required']"
+          >Description is required</span
+        >
+        <span *ngIf="description?.errors?.['minlength']"
+          >Description must be at least 5 characters</span
+        >
         <span *ngIf="description?.errors?.['maxlength']"
-          >Must be less than 500 characters</span
+          >Description must be less than 500 characters</span
         >
       </div>
       <div class="character-count">
         {{ description?.value?.length || 0 }}/500
       </div>
-    </app-input-field>
-
+    </div>
     <div class="form-row">
       <mat-form-field>
         <mat-label>Due Date</mat-label>
@@ -81,15 +96,20 @@
           <span *ngIf="dueDate?.errors?.['required']"
             >Due date is required</span
           >
+          <span *ngIf="dueDate?.errors?.['pastDate'] && isEditMode"
+            >Due date cannot be in the past</span
+          >
         </mat-error>
       </mat-form-field>
     </div>
+
     <div class="form-row">
       <app-select
         label="Status"
         [options]="statusOptions"
         [required]="true"
         [formControl]="status"
+        placeholder="Select a status"
       >
         <ng-template #optionTemplate let-option>
           <span class="status-badge {{option.value | lowercase}}">
@@ -105,18 +125,27 @@
       </app-select>
     </div>
 
-    <!-- <app-select
-      label="Category"
-      [options]="categoryOptions"
-      placeholder="Select a category"
-    >
+    <div class="form-row">
+      <app-select
+        label="Category"
+        [options]="categoryOptions"
+        [required]="true"
+        [formControl]="categoryId"
+        placeholder="Select a category"
+      >
+      </app-select>
       <ng-template #optionTemplate let-option>
-        <div class="category-option">
-          <span class="category-dot" [style.background]="option.color"></span>
-          {{option.label}}
-        </div>
+        <div class="category-option">{{option.label}}</div>
       </ng-template>
-    </app-select> -->
+      <div
+        *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)"
+        class="error-message"
+      >
+        <span *ngIf="categoryId?.errors?.['required']"
+          >Category is required</span
+        >
+      </div>
+    </div>
   </form>
 
   <div class="form-actions">

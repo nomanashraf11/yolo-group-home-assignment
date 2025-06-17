@@ -8,8 +8,12 @@ import { Component } from '@angular/core';
     <nav class="navbar">
       <div class="navbar-logo">
         <a routerLink="/" class="logo-link">
-          <img src="assets/logo.svg" alt="Logo" class="logo-img" />
-          <span class="logo-text">Task Manager</span>
+          <img
+            src="/assets/icons/yolo.svg"
+            alt="Logo"
+            class="logo-img"
+            style="width: 130px; height: 100px"
+          />
         </a>
       </div>
 
@@ -28,10 +32,6 @@ import { Component } from '@angular/core';
           >
         </li>
       </ul>
-
-      <div class="navbar-actions">
-        <button class="btn btn-primary">+ New Task</button>
-      </div>
     </nav>
   `,
   styleUrls: ['./header.scss'],

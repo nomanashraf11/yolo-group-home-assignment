@@ -9,8 +9,12 @@ import { Category } from '../../../modules/categories/models/category.model';
 
 import { CommonModule } from '@angular/common';
 import { UiComponentsModule } from '../../ui-components/ui-components.module';
-import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { OnInit } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 interface StatusOption {
   value: 'To Do' | 'In Progress' | 'Done' | '';
   label: string;
@@ -26,7 +30,15 @@ interface CategoryOption {
   templateUrl: './filter-panel.html',
   styleUrls: ['./filter-panel.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, UiComponentsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    UiComponentsModule,
+  ],
 })
 export class FilterPanelComponent implements OnInit {
   @Output() filterChange = new EventEmitter<any>();
@@ -64,29 +76,25 @@ export class FilterPanelComponent implements OnInit {
       this.filterChange.emit(filters);
     });
   }
+  private initialized = false;
+
   ngOnInit(): void {
-    // it is used for debounceTime for user typing
-    this.titleControl.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe(() => this.emitFilters());
+    this.filterForm.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(
+          (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
+        )
+      )
+      .subscribe(() => {
+        if (this.initialized) {
+          this.emitFilters();
+        }
+      });
 
-    this.statusControl.valueChanges
-      .pipe(startWith(''))
-      .subscribe(() => this.emitFilters());
-
-    this.categoryIdControl.valueChanges
-      .pipe(startWith(''))
-      .subscribe(() => this.emitFilters());
-
-    this.filterForm
-      .get('fromDate')
-      ?.valueChanges.pipe(startWith(null))
-      .subscribe(() => this.emitFilters());
-
-    this.filterForm
-      .get('toDate')
-      ?.valueChanges.pipe(startWith(null))
-      .subscribe(() => this.emitFilters());
+    setTimeout(() => {
+      this.initialized = true;
+    });
   }
   ngOnChanges() {
     if (this.categories && Array.isArray(this.categories)) {

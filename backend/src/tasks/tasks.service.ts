@@ -67,16 +67,18 @@ export class TasksService {
     if (!hasSort) {
       query.orderBy('task.dueDate', 'ASC');
     }
-    console.log(query.getSql());
+
     const [data, count] = await query.getManyAndCount();
     return [data, count];
   }
 
   async findOne(id: number): Promise<Task> {
+    console.log(id, 'id');
     const task = await this.tasksRepository.findOne({
       where: { id },
       relations: ['category'],
     });
+    console.log(task);
     if (!task) {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
@@ -90,6 +92,7 @@ export class TasksService {
 
   async update(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
     const task = await this.findOne(id);
+    console.log(task);
     return this.tasksRepository.save({ ...task, ...updateTaskDto });
   }
 

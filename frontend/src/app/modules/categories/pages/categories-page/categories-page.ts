@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Category, CategoriesResponse } from '../../models/category.model';
 import { MatDialog } from '@angular/material/dialog';
-// import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { CategoriesService } from '../../services/category.service';
 import { CategoryFormComponent } from '../../components/category-form/category-form';
 import { CommonModule } from '@angular/common';
@@ -12,6 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { CategoriesListComponent } from '../../components/categories-list/categories-list';
+import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel';
+import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
+import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
 
 @Component({
   selector: 'app-categories-page',
@@ -25,6 +27,8 @@ import { CategoriesListComponent } from '../../components/categories-list/catego
     MatInputModule,
     MatIconModule,
     CategoriesListComponent,
+    UiComponentsModule,
+    FilterPanelComponent,
   ],
 })
 export class CategoriesPageComponent implements OnInit {
@@ -50,8 +54,8 @@ export class CategoriesPageComponent implements OnInit {
       .getCategories(this.currentPage, this.itemsPerPage, this.searchTitle)
       .subscribe({
         next: (response) => {
-          this.categories = response.categories;
-          this.totalCategories = response.total;
+          this.categories = response.data;
+          this.totalCategories = response.count;
           this.isLoading = false;
         },
         error: () => {
@@ -83,22 +87,22 @@ export class CategoriesPageComponent implements OnInit {
     });
   }
 
-  // deleteCategory(categoryId: string): void {
-  //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-  //     width: '400px',
-  //     data: {
-  //       title: 'Delete Category',
-  //       message:
-  //         'Are you sure you want to delete this category? This will unassign all tasks from this category.',
-  //     },
-  //   });
+  deleteCategory(categoryId: string): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Delete Category',
+        message:
+          'Are you sure you want to delete this category? This will unassign all tasks from this category.',
+      },
+    });
 
-  //   dialogRef.afterClosed().subscribe((confirmed) => {
-  //     if (confirmed) {
-  //       this.categoriesService.deleteCategory(categoryId).subscribe(() => {
-  //         this.loadCategories();
-  //       });
-  //     }
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.categoriesService.deleteCategory(categoryId).subscribe(() => {
+          this.loadCategories();
+        });
+      }
+    });
+  }
 }

@@ -4,8 +4,62 @@
       <ng-container *ngIf="tasks.length > 0; else noTasks">
         <div class="task-list-container">
           <div class="task-list-header">
-            <div class="header-title">Task</div>
-            <div class="header-due-date">Due Date</div>
+            <div
+              class="header-title"
+              style="cursor: pointer"
+              (click)="onSort('title')"
+            >
+              Task
+              <span *ngIf="sortBy === 'title'" class="sort-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    *ngIf="sortDirection === 'asc'"
+                    d="M12 4l-8 8h16z"
+                    fill="#64748B"
+                  />
+                  <path
+                    *ngIf="sortDirection === 'desc'"
+                    d="M12 20l8-8H4z"
+                    fill="#64748B"
+                  />
+                </svg>
+              </span>
+            </div>
+
+            <div
+              style="cursor: pointer"
+              class="header-due-date"
+              (click)="onSort('dueDate')"
+            >
+              Due Date
+              <span class="sort-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    *ngIf="sortDirection === 'desc'"
+                    d="M12 4l-8 8h16z"
+                    fill="#64748B"
+                  />
+                  <path
+                    *ngIf="sortDirection === 'asc'"
+                    d="M12 20l8-8H4z"
+                    fill="#64748B"
+                  />
+                </svg>
+              </span>
+            </div>
+
             <div class="header-category" *ngIf="showCategory">Category</div>
             <div class="header-actions">Actions</div>
           </div>
@@ -28,19 +82,6 @@
               </div>
 
               <div class="task-due-date">
-                <svg
-                  class="calendar-icon"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z"
-                  />
-                  <path d="M16 2V6" />
-                  <path d="M8 2V6" />
-                  <path d="M3 10H21" />
-                </svg>
                 <span>{{ task.dueDate | date:'shortDate' }}</span>
               </div>
 
@@ -48,9 +89,9 @@
                 <span
                   class="category-dot"
                   *ngIf="task.categoryId"
-                  [style.background]="getCategoryColor(task.categoryId)"
+                  [style.background]="'#4f46e5'"
                 ></span>
-                <!-- <span>{{ getCategoryName(task?.categoryId) || '-' }}</span> -->
+                <span>{{ task.category?.title || 'Not assigned' }}</span>
               </div>
 
               <div class="task-actions">
@@ -86,60 +127,9 @@
 
     <ng-template #noTasks>
       <div class="no-tasks-message">
-        <svg
-          class="empty-icon"
-          width="48"
-          height="48"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M4 16L8 20L12 16"
-            stroke="#94A3B8"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M8 20V10"
-            stroke="#94A3B8"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M16 4L12 8L8 4"
-            stroke="#94A3B8"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M12 8V18"
-            stroke="#94A3B8"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M20 16L16 20L12 16"
-            stroke="#94A3B8"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <img src="/assets/icons/notask.svg" alt="" />
         <h3>No tasks found</h3>
-        <p>Get started by creating your first task</p>
-        <app-button
-          type="primary"
-          size="medium"
-          icon="add"
-          (click)="onCreateTask()"
-        >
-          Create Task
-        </app-button>
+        <p>Get started by creating it.</p>
       </div>
     </ng-template>
   </div>

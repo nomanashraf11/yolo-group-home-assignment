@@ -20,7 +20,22 @@ export class TasksService {
       .set('page', page.toString())
       .set('limit', limit.toString());
 
+    console.log(filters);
     if (filters) {
+      if (filters.sortBy && filters.sortDirection) {
+        if (filters.sortBy === 'title') {
+          params = params.set(
+            'sortByTitle',
+            filters.sortDirection === 'asc' ? 'ASC' : 'DESC'
+          );
+        }
+        if (filters.sortBy === 'dueDate') {
+          params = params.set(
+            'sortByDueDate',
+            filters.sortDirection === 'asc' ? 'ASC' : 'DESC'
+          );
+        }
+      }
       if (filters.status) params = params.set('status', filters.status);
       if (filters.title) params = params.set('title', filters.title);
       if (filters.categoryId)

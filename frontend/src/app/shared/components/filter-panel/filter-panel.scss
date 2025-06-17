@@ -7,6 +7,80 @@
   background: white;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
+  .input-container {
+    flex: 1;
+    min-width: 180px;
+    min-height: 82px;
+
+    @media (max-width: 768px) {
+      min-width: 100%;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #334155;
+      margin-bottom: 0.35rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .custom-date-range {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 0.6rem 0.75rem;
+      transition: border-color 0.2s;
+
+      &:hover {
+        border-color: #94a3b8;
+      }
+
+      &.mat-date-range-input-has-start-date .mat-date-range-input-start-wrapper,
+      &.mat-date-range-input-has-end-date .mat-date-range-input-end-wrapper {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .input-field {
+        font-size: 0.875rem;
+        color: #334155;
+        padding: 0 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+
+        &::placeholder {
+          color: #94a3b8;
+        }
+      }
+
+      .mat-date-range-input-separator {
+        margin: 0 0.5rem;
+        color: #94a3b8;
+      }
+    }
+
+    .mat-datepicker-toggle {
+      color: #64748b;
+      margin-left: 0.5rem;
+
+      .mat-icon-button {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+      }
+    }
+  }
   .filter-container {
     display: flex;
     align-items: flex-end;

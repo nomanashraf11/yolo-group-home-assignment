@@ -1,3 +1,5 @@
+import { Category } from '../../categories/models/category.model';
+
 export type TaskStatus = 'To Do' | 'In Progress' | 'Done';
 
 export interface Task {
@@ -7,6 +9,7 @@ export interface Task {
   dueDate: Date | string;
   status: TaskStatus;
   categoryId?: string | null;
+  category?: Category | null;
   createdAt: Date | string;
   updatedAt: Date | string;
 }
@@ -17,6 +20,8 @@ export interface TaskFilterOptions {
   toDate?: Date | null;
   title?: string;
   categoryId?: string | null;
+  sortBy?: string | null;
+  sortDirection?: 'asc' | 'desc' | null;
 }
 
 export interface TasksResponse {

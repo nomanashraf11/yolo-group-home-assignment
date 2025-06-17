@@ -3,7 +3,7 @@
     <app-input-field
       class="search-field"
       label="Search tasks"
-      placeholder="Design, Docs, etc..."
+      placeholder="Search by title"
       icon="search"
       [formControl]="titleControl"
     ></app-input-field>
@@ -21,44 +21,35 @@
       </ng-template>
     </app-select>
 
-    <app-select
-      class="category-field"
-      label="Category"
-      [options]="categoryOptions"
-      [formControl]="categoryIdControl"
-    >
-      <ng-template #optionTemplate let-option>
-        <div class="category-option">
-          <span class="category-dot"></span>
-          {{option.label}}
-        </div>
-      </ng-template>
-    </app-select>
-
-    <app-date-range-picker
-      class="date-range-field"
-      [formGroup]="filterForm"
-      fromControlName="fromDate"
-      toControlName="toDate"
-    ></app-date-range-picker>
-
+    <div class="input-container">
+      <label class="input-label">Date range</label>
+      <div class="input-wrapper">
+        <mat-date-range-input
+          [formGroup]="filterForm"
+          [rangePicker]="picker"
+          class="custom-date-range"
+        >
+          <input
+            matStartDate
+            formControlName="fromDate"
+            class="input-field"
+            placeholder="From date"
+          />
+          <input
+            matEndDate
+            formControlName="toDate"
+            class="input-field"
+            placeholder="To date"
+          />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </div>
+    </div>
     <div class="action-buttons">
-      <app-button
-        type="secondary"
-        size="medium"
-        icon="refresh"
-        (click)="onReset()"
+      <app-button type="text" size="medium" icon="refresh" (click)="onReset()"
         >Reset</app-button
       >
-
-      <app-button
-        type="primary"
-        size="medium"
-        icon="filter_alt"
-        (click)="onFilter()"
-      >
-        Apply
-      </app-button>
     </div>
   </form>
 </div>
