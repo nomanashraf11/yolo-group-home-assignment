@@ -67,20 +67,23 @@ DB_PASSWORD=postgres
 PORT=3000
 ````
 
-# Install dependencies and start
+# Install dependencies and start for backend
 
+```bash
 npm install
 npm run start:dev
 
-````
+```
 
 **Frontend Setup:**
+
+# Install dependencies and start for frontend move to frontend directory
 
 ```bash
 cd frontend
 npm install
 npm start
-````
+```
 
 **Seed Database (Optional):**
 

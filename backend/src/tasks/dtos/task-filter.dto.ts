@@ -40,6 +40,7 @@ export class TaskFilterDto {
   title?: string;
 
   @IsNumber()
+  @Type(() => Number)
   @IsOptional()
   categoryId?: number;
 
