@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+
 interface StatusOption {
   value: 'To Do' | 'In Progress' | 'Done' | '';
   label: string;
@@ -23,6 +24,16 @@ interface StatusOption {
 interface CategoryOption {
   value: string;
   label: string;
+}
+
+export interface FilterConfig {
+  showTitle?: boolean;
+  showStatus?: boolean;
+  showCategory?: boolean;
+  showDateRange?: boolean;
+  titleLabel?: string;
+  titlePlaceholder?: string;
+  searchLabel?: string;
 }
 
 @Component({
@@ -43,6 +54,15 @@ interface CategoryOption {
 export class FilterPanelComponent implements OnInit {
   @Output() filterChange = new EventEmitter<any>();
   @Input() categories: Category[] = [];
+  @Input() config: FilterConfig = {
+    showTitle: true,
+    showStatus: true,
+    showCategory: true,
+    showDateRange: true,
+    titleLabel: 'Search tasks',
+    titlePlaceholder: 'Search by title',
+    searchLabel: 'Search',
+  };
 
   statusOptions: StatusOption[] = [
     { value: '', label: 'All statuses' },
@@ -64,18 +84,33 @@ export class FilterPanelComponent implements OnInit {
       toDate: [null],
     });
   }
+
   private emitFilters(): void {
     setTimeout(() => {
-      const filters = {
-        title: this.filterForm.value.title || undefined,
-        status: this.filterForm.value.status || undefined,
-        categoryId: this.filterForm.value.categoryId || undefined,
-        fromDate: this.filterForm.value.fromDate || undefined,
-        toDate: this.filterForm.value.toDate || undefined,
-      };
+      const filters: any = {};
+
+      if (this.config.showTitle && this.filterForm.value.title) {
+        filters.title = this.filterForm.value.title;
+      }
+      if (this.config.showStatus && this.filterForm.value.status) {
+        filters.status = this.filterForm.value.status;
+      }
+      if (this.config.showCategory && this.filterForm.value.categoryId) {
+        filters.categoryId = this.filterForm.value.categoryId;
+      }
+      if (this.config.showDateRange) {
+        if (this.filterForm.value.fromDate) {
+          filters.fromDate = this.filterForm.value.fromDate;
+        }
+        if (this.filterForm.value.toDate) {
+          filters.toDate = this.filterForm.value.toDate;
+        }
+      }
+
       this.filterChange.emit(filters);
     });
   }
+
   private initialized = false;
 
   ngOnInit(): void {
@@ -96,6 +131,7 @@ export class FilterPanelComponent implements OnInit {
       this.initialized = true;
     });
   }
+
   ngOnChanges() {
     if (this.categories && Array.isArray(this.categories)) {
       this.categoryOptions = this.categories.map((c) => ({
@@ -106,6 +142,7 @@ export class FilterPanelComponent implements OnInit {
       this.categoryOptions = [];
     }
   }
+
   get titleControl(): FormControl {
     return this.filterForm.get('title') as FormControl;
   }
@@ -119,13 +156,26 @@ export class FilterPanelComponent implements OnInit {
   }
 
   onFilter(): void {
-    const filters = {
-      title: this.filterForm.value.title || undefined,
-      status: this.filterForm.value.status || undefined,
-      categoryId: this.filterForm.value.categoryId || undefined,
-      fromDate: this.filterForm.value.fromDate || undefined,
-      toDate: this.filterForm.value.toDate || undefined,
-    };
+    const filters: any = {};
+
+    if (this.config.showTitle && this.filterForm.value.title) {
+      filters.title = this.filterForm.value.title;
+    }
+    if (this.config.showStatus && this.filterForm.value.status) {
+      filters.status = this.filterForm.value.status;
+    }
+    if (this.config.showCategory && this.filterForm.value.categoryId) {
+      filters.categoryId = this.filterForm.value.categoryId;
+    }
+    if (this.config.showDateRange) {
+      if (this.filterForm.value.fromDate) {
+        filters.fromDate = this.filterForm.value.fromDate;
+      }
+      if (this.filterForm.value.toDate) {
+        filters.toDate = this.filterForm.value.toDate;
+      }
+    }
+
     this.filterChange.emit(filters);
   }
 

@@ -137,7 +137,6 @@ export class TaskFormComponent implements OnInit {
     return this.taskForm.get('categoryId') as FormControl;
   }
 
-  // submit the form
   onSubmit(): void {
     if (this.taskForm.invalid) {
       this.taskForm.markAllAsTouched();

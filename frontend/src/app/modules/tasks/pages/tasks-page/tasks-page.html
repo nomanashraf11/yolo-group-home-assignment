@@ -18,6 +18,8 @@
 
   <div class="filters-section">
     <app-filter-panel
+      [config]="filterConfig"
+      [categories]="categories"
       (filterChange)="onFilterChange($event)"
     ></app-filter-panel>
   </div>

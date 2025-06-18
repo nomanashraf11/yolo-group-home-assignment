@@ -18,6 +18,7 @@
 
   <div class="filters-section">
     <app-filter-panel
+      [config]="filterConfig"
       (filterChange)="onFilterChange($event)"
     ></app-filter-panel>
   </div>
@@ -34,9 +35,12 @@
       <app-categories-list
         [categories]="categories"
         [isLoading]="isLoading"
+        [sortBy]="sortBy"
+        [sortDirection]="sortDirection"
         (editCategory)="openCategoryForm($event)"
         (deleteCategory)="deleteCategory($event)"
         (refreshCategories)="loadCategories()"
+        (sortChange)="onSortChange($event)"
       >
       </app-categories-list>
 

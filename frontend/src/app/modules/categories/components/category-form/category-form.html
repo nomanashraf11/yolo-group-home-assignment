@@ -40,7 +40,7 @@
           >Title must be less than 100 characters</span
         >
       </div>
-      <div class="character-count">{{ title?.value?.length || 0 }}/100</div>
+      <div class="character-count">{{ title.value.length || 0 }}/100</div>
     </div>
 
     <div>
@@ -62,9 +62,7 @@
           >Description must be less than 500 characters</span
         >
       </div>
-      <div class="character-count">
-        {{ description?.value?.length || 0 }}/500
-      </div>
+      <div class="character-count">{{ description.value.length || 0 }}/500</div>
     </div>
   </form>
 

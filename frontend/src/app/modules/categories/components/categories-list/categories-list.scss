@@ -1,8 +1,10 @@
 .categories-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 16px;
+  margin: 1rem 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
   .drag-handle {
     cursor: move;
@@ -27,6 +29,63 @@
   .task-title {
     flex-grow: 1;
   }
+
+  .categories-header {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    background-color: #f8fafc;
+    padding: 12px 16px;
+    font-weight: 600;
+    color: #4f46e5;
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 8px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .header-title {
+      font-weight: 600;
+      color: #4f46e5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        color: #3730a3;
+      }
+
+      .sort-icon {
+        display: flex;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 0.2s;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    .header-actions {
+      font-weight: 600;
+      color: #4f46e5;
+      text-align: right;
+
+      @media (max-width: 768px) {
+        text-align: left;
+        font-size: 14px;
+      }
+    }
+  }
+
   .category-accordion {
     display: flex;
     flex-direction: column;
@@ -71,6 +130,13 @@
         justify-content: space-between;
         position: relative;
 
+        @media (max-width: 768px) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 16px;
+        }
+
         &:hover {
           background: #f1f5f9;
         }
@@ -110,6 +176,11 @@
           flex: 1;
           cursor: pointer;
 
+          @media (max-width: 768px) {
+            width: 100%;
+            gap: 0.75rem;
+          }
+
           .accordion-icon {
             display: flex;
             align-items: center;
@@ -124,11 +195,32 @@
           .category-info {
             flex: 1;
 
+            @media (max-width: 768px) {
+              min-width: 0;
+            }
+
             .category-title {
               margin: 0;
               font-size: 16px;
               font-weight: 600;
               color: #111827;
+
+              @media (max-width: 768px) {
+                font-size: 15px;
+                line-height: 1.4;
+              }
+            }
+
+            .category-description {
+              color: #6b7280;
+              font-size: 14px;
+              line-height: 1.5;
+              margin-top: 4px;
+
+              @media (max-width: 768px) {
+                font-size: 13px;
+                margin-top: 2px;
+              }
             }
 
             .category-meta {
@@ -138,6 +230,12 @@
               margin-top: 4px;
               font-size: 13px;
               color: #6b7280;
+
+              @media (max-width: 768px) {
+                gap: 12px;
+                font-size: 12px;
+                margin-top: 2px;
+              }
 
               mat-icon {
                 width: 14px;
@@ -159,14 +257,25 @@
         .header-actions {
           display: flex;
           gap: 0.5rem;
-          opacity: 0;
+          opacity: 1;
           transition: opacity 0.2s;
+
+          @media (max-width: 768px) {
+            width: 100%;
+            justify-content: flex-end;
+            gap: 0.75rem;
+          }
 
           .action-button {
             min-width: 32px;
             height: 32px;
             padding: 0;
             border-radius: 6px;
+
+            @media (max-width: 768px) {
+              min-width: 36px;
+              height: 36px;
+            }
 
             &.delete {
               color: #ef4444;
@@ -184,12 +293,14 @@
               font-size: 18px;
               width: 18px;
               height: 18px;
+
+              @media (max-width: 768px) {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+              }
             }
           }
-        }
-
-        &:hover .header-actions {
-          opacity: 1;
         }
       }
 
@@ -205,12 +316,22 @@
         .content-inner {
           padding: 0 20px 20px 56px;
 
+          @media (max-width: 768px) {
+            padding: 0 16px 16px 16px;
+          }
+
           .category-description {
             color: #6b7280;
             font-size: 14px;
             line-height: 1.5;
             margin-bottom: 20px;
             padding: 8px 0;
+
+            @media (max-width: 768px) {
+              font-size: 13px;
+              margin-bottom: 16px;
+              padding: 6px 0;
+            }
           }
 
           .tasks-section {
@@ -220,11 +341,19 @@
               justify-content: space-between;
               margin-bottom: 12px;
 
+              @media (max-width: 768px) {
+                margin-bottom: 8px;
+              }
+
               h4 {
                 margin: 0;
                 font-size: 14px;
                 font-weight: 600;
                 color: #111827;
+
+                @media (max-width: 768px) {
+                  font-size: 13px;
+                }
               }
 
               .add-task-btn {
@@ -233,11 +362,24 @@
                 padding: 0 12px;
                 height: 32px;
 
+                @media (max-width: 768px) {
+                  font-size: 12px;
+                  padding: 0 8px;
+                  height: 28px;
+                }
+
                 mat-icon {
                   width: 16px;
                   height: 16px;
                   font-size: 16px;
                   margin-right: 4px;
+
+                  @media (max-width: 768px) {
+                    width: 14px;
+                    height: 14px;
+                    font-size: 14px;
+                    margin-right: 2px;
+                  }
                 }
               }
             }
@@ -253,81 +395,128 @@
                 border-radius: 8px;
                 text-align: center;
 
+                @media (max-width: 768px) {
+                  padding: 16px;
+                }
+
                 mat-icon {
                   width: 40px;
                   height: 40px;
                   font-size: 40px;
                   color: #d1d5db;
                   margin-bottom: 8px;
+
+                  @media (max-width: 768px) {
+                    width: 32px;
+                    height: 32px;
+                    font-size: 32px;
+                    margin-bottom: 6px;
+                  }
                 }
 
                 p {
                   margin: 0;
-                  color: #9ca3af;
+                  color: #6b7280;
                   font-size: 14px;
+
+                  @media (max-width: 768px) {
+                    font-size: 13px;
+                  }
                 }
               }
 
               .task-item {
                 display: flex;
                 align-items: center;
-                gap: 1.5rem;
-                padding: 0.75rem 0.5rem;
-                border-radius: 6px;
+                padding: 12px;
                 background: #ffffff;
-                cursor: grab;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                margin-bottom: 8px;
                 transition: all 0.2s ease;
-                margin-bottom: 0.5rem;
+                cursor: grab;
+
+                @media (max-width: 768px) {
+                  padding: 10px;
+                  margin-bottom: 6px;
+                }
+
+                &:last-child {
+                  margin-bottom: 0;
+                }
+
+                &:hover {
+                  background: #f9fafb;
+                  border-color: #d1d5db;
+                  transform: translateY(-1px);
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
 
                 &:active {
                   cursor: grabbing;
                 }
 
-                &:hover {
-                  background: #f8fafc;
-                  transform: translateY(-1px);
-                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                }
-
                 .task-main {
                   display: flex;
                   align-items: center;
-                  gap: 1.5rem;
+                  gap: 12px;
                   flex: 1;
+                  min-width: 0;
 
-                  .task-title {
-                    font-weight: 500;
-                    color: #1a1a1a;
-                    flex: 1;
+                  @media (max-width: 768px) {
+                    gap: 8px;
                   }
-                  .task-meta {
-                    font-size: 0.95rem;
-                    color: #64748b;
-                    min-width: 90px;
-                  }
-                }
 
-                .task-actions {
-                  display: flex;
-                  gap: 0.5rem;
-                  opacity: 0;
-                  transition: opacity 0.2s;
+                  .drag-handle {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 24px;
+                    height: 24px;
+                    cursor: grab;
+                    opacity: 0.6;
+                    transition: opacity 0.2s;
 
-                  .move-btn {
-                    min-width: 32px;
-                    height: 32px;
-                    padding: 0;
-                    border-radius: 6px;
-                    color: #4f46e5;
+                    @media (max-width: 768px) {
+                      width: 20px;
+                      height: 20px;
+                    }
 
                     &:hover {
-                      background: rgba(79, 70, 229, 0.1);
+                      opacity: 1;
+                    }
+
+                    img {
+                      width: 100%;
+                      height: 100%;
+                      object-fit: contain;
                     }
                   }
-                }
 
-                &:hover .task-actions {
-                  opacity: 1;
+                  .task-title {
+                    flex: 1;
+                    font-weight: 500;
+                    color: #111827;
+                    font-size: 14px;
+                    line-height: 1.4;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                    @media (max-width: 768px) {
+                      font-size: 13px;
+                    }
+                  }
+
+                  .task-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    @media (max-width: 768px) {
+                      gap: 6px;
+                    }
+                  }
                 }
               }
             }
@@ -342,21 +531,29 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 48px;
+    padding: 3rem 1rem;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      padding: 2rem 1rem;
+    }
 
     .loading-spinner {
-      margin-bottom: 16px;
+      margin-bottom: 1rem;
 
-      ::ng-deep .mat-progress-spinner circle,
-      .mat-spinner circle {
-        stroke: #4f46e5;
+      @media (max-width: 768px) {
+        margin-bottom: 0.75rem;
       }
     }
 
     p {
       margin: 0;
       color: #6b7280;
-      font-size: 14px;
+      font-size: 16px;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
     }
   }
 
@@ -365,43 +562,56 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 48px;
+    padding: 3rem 1rem;
     text-align: center;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px dashed #e5e7eb;
+
+    @media (max-width: 768px) {
+      padding: 2rem 1rem;
+    }
 
     .empty-icon {
-      width: 64px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f3f4f6;
-      border-radius: 50%;
-      margin-bottom: 16px;
+      margin-bottom: 1rem;
+
+      @media (max-width: 768px) {
+        margin-bottom: 0.75rem;
+      }
 
       mat-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 32px;
-        color: #9ca3af;
+        width: 48px;
+        height: 48px;
+        font-size: 48px;
+        color: #d1d5db;
+
+        @media (max-width: 768px) {
+          width: 40px;
+          height: 40px;
+          font-size: 40px;
+        }
       }
     }
 
     h3 {
-      margin: 0 0 8px;
+      margin: 0 0 0.5rem 0;
+      color: #111827;
       font-size: 18px;
       font-weight: 600;
-      color: #111827;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+        margin-bottom: 0.25rem;
+      }
     }
 
     p {
-      margin: 0 0 16px;
+      margin: 0;
       color: #6b7280;
       font-size: 14px;
-    }
 
-    .create-btn {
-      mat-icon {
-        margin-right: 8px;
+      @media (max-width: 768px) {
+        font-size: 13px;
       }
     }
   }
