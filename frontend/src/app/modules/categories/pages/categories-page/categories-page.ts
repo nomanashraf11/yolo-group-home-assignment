@@ -124,25 +124,21 @@ export class CategoriesPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (category) {
-          // Edit mode - update existing category
           this.categoriesService.updateCategory(category.id, result).subscribe({
             next: () => {
               this.loadCategories();
             },
             error: (error) => {
               console.error('Error updating category:', error);
-              // You might want to show a toast/notification here
             },
           });
         } else {
-          // Create mode - create new category
           this.categoriesService.createCategory(result).subscribe({
             next: () => {
               this.loadCategories();
             },
             error: (error) => {
               console.error('Error creating category:', error);
-              // You might want to show a toast/notification here
             },
           });
         }

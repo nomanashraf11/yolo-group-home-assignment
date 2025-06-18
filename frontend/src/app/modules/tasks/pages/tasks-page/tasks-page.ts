@@ -165,10 +165,4 @@ export class TasksPageComponent implements OnInit {
       }
     });
   }
-
-  // changeTaskCategory(taskId: string, categoryId: string | null): void {
-  //   this.tasksService.changeTaskCategory(taskId, categoryId).subscribe(() => {
-  //     this.loadTasks();
-  //   });
-  // }
 }

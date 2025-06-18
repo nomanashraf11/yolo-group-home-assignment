@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Category } from '../../models/category.model';
-import { NgTemplateOutlet, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -31,7 +31,6 @@ import { TasksService } from '../../../tasks/services/task.service';
   ],
   imports: [
     CommonModule,
-    NgTemplateOutlet,
     MatCardModule,
     MatIconModule,
     MatProgressSpinnerModule,
@@ -101,14 +100,13 @@ export class CategoriesListComponent {
   onCategoryDragOver(event: DragEvent, categoryId: string): void {
     event.preventDefault();
     event.stopPropagation();
-    console.log('Drag over category:', categoryId);
     this.dragOverCategoryId = categoryId;
   }
 
   onCategoryDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    console.log('Drag leave category');
+
     this.dragOverCategoryId = null;
   }
 
