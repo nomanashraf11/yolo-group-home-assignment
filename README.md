@@ -45,13 +45,34 @@ cd yolo-group-home-assignment
 - Node.js (v18+)
 - PostgreSQL running locally
 
-**Backend Setup:**
+**Database Setup:**
 
 ```bash
+# Create PostgreSQL database
+createdb yolo_db
+```
+
+**Backend Setup:**
+
+````bash
 cd backend
+
+```bash
+# Create .env file in the backend directory
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=yolo_db
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+PORT=3000
+````
+
+# Install dependencies and start
+
 npm install
 npm run start:dev
-```
+
+````
 
 **Frontend Setup:**
 
@@ -59,24 +80,13 @@ npm run start:dev
 cd frontend
 npm install
 npm start
-```
+````
 
-**Database Setup:**
+**Seed Database (Optional):**
 
-- Create a PostgreSQL database named `yolo_db`
-- Update environment variables in `backend/src/app.module.ts` if needed
-- Run the seed script: `./seed-data.sh`
-
-## Environment Variables
-
-**Backend (.env):**
-
-```
-DB_HOST=localhost
-DB_PORT=5432
-DB_DATABASE=yolo_db
-DB_USERNAME=yolo_user
-DB_PASSWORD=yolo_password
+```bash
+# From root directory
+./seed-data.sh
 ```
 
 ## API Endpoints
