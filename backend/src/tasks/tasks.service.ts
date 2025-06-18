@@ -90,25 +90,21 @@ export class TasksService {
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
-    if ('categoryId' in updateTaskDto && updateTaskDto.categoryId === null) {
+    if ('categoryId' in updateTaskDto) {
       await this.tasksRepository.query(
-        'UPDATE task SET "categoryId" = NULL, "updatedAt" = CURRENT_TIMESTAMP WHERE id = $1',
-        [id],
+        'UPDATE task SET "categoryId" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE id = $2',
+        [updateTaskDto.categoryId, id],
       );
-
       delete updateTaskDto.categoryId;
       if ('category' in updateTaskDto) delete updateTaskDto.category;
-
-      if (Object.keys(updateTaskDto).length > 0) {
-        const task = await this.findOne(id);
-        return this.tasksRepository.save({ ...task, ...updateTaskDto });
-      } else {
-        return this.findOne(id);
-      }
     }
 
-    const task = await this.findOne(id);
-    return this.tasksRepository.save({ ...task, ...updateTaskDto });
+    if (Object.keys(updateTaskDto).length > 0) {
+      const task = await this.findOne(id);
+      return this.tasksRepository.save({ ...task, ...updateTaskDto });
+    } else {
+      return this.findOne(id);
+    }
   }
 
   async remove(id: number): Promise<void> {
@@ -144,6 +140,7 @@ export class TasksService {
     categoryId: string | number,
   ): Promise<Task | null> {
     try {
+      console.log(taskId, categoryId);
       const taskIdNum =
         typeof taskId === 'string' ? parseInt(taskId, 10) : taskId;
       const categoryIdNum =

@@ -84,16 +84,10 @@ export class CategoriesListComponent {
   }
 
   onTaskDragStart(event: DragEvent, taskId: string): void {
-    console.log('=== DRAG START ===');
-    console.log('Task ID:', taskId);
-    console.log('Event:', event);
-
     this.draggedTaskId = taskId;
-
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('text/plain', taskId);
-      console.log('Drag data set successfully');
     }
   }
 
@@ -106,7 +100,6 @@ export class CategoriesListComponent {
   onCategoryDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
-
     this.dragOverCategoryId = null;
   }
 
@@ -114,35 +107,26 @@ export class CategoriesListComponent {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('=== DROP EVENT ===');
-    console.log('Dragged Task ID:', this.draggedTaskId);
-    console.log('Target Category ID:', categoryId);
-    console.log('Event:', event);
+    const task = this.categories
+      .flatMap((cat) => cat.tasks)
+      .find((t) => t.id === this.draggedTaskId);
 
-    if (this.draggedTaskId && this.draggedTaskId !== categoryId) {
-      console.log('=== CALLING API ===');
-      console.log(
-        'API URL will be:',
-        `PUT /tasks/${this.draggedTaskId}/category/${categoryId}`
-      );
-
+    if (this.draggedTaskId && task && task.categoryId !== categoryId) {
       this.tasksService
         .changeTaskCategory(this.draggedTaskId, categoryId)
         .subscribe({
           next: (response) => {
-            console.log('=== API SUCCESS ===');
             console.log('Response:', response);
             this.refreshCategories.emit();
           },
           error: (error) => {
-            console.error('Error status:', error.status);
-            console.error('Error message:', error.message);
+            console.log('Error status:', error.status);
+            console.log('Error message:', error.message);
           },
         });
     } else {
-      console.log('Invalid drop - ');
+      console.log('Invalid drop');
     }
-
     this.draggedTaskId = null;
     this.dragOverCategoryId = null;
   }
