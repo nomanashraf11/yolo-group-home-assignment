@@ -90,8 +90,24 @@ export class TasksService {
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
-    const task = await this.findOne(id);
+    if ('categoryId' in updateTaskDto && updateTaskDto.categoryId === null) {
+      await this.tasksRepository.query(
+        'UPDATE task SET "categoryId" = NULL, "updatedAt" = CURRENT_TIMESTAMP WHERE id = $1',
+        [id],
+      );
 
+      delete updateTaskDto.categoryId;
+      if ('category' in updateTaskDto) delete updateTaskDto.category;
+
+      if (Object.keys(updateTaskDto).length > 0) {
+        const task = await this.findOne(id);
+        return this.tasksRepository.save({ ...task, ...updateTaskDto });
+      } else {
+        return this.findOne(id);
+      }
+    }
+
+    const task = await this.findOne(id);
     return this.tasksRepository.save({ ...task, ...updateTaskDto });
   }
 

@@ -4,9 +4,8 @@ import { Task, TaskFilterOptions } from '../../models/task.model';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { TasksService } from '../../services/task.service';
 import { Category } from '../../../categories/models/category.model';
-import { CategoriesService } from '../../../categories/services/category.service';
+
 import { TaskFormComponent } from '../../components/task-form/task-form';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ButtonComponent } from '../../../../shared/ui-components/button/button';
 import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
 import { TasksListComponent } from '../../components/tasks-list/tasks-list';
+import { TasksService } from '../../../../core/services/task.service';
+import { CategoriesService } from '../../../../core/services/category.service';
 
 @Component({
   selector: 'app-tasks-page',

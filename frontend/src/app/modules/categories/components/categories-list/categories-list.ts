@@ -13,7 +13,7 @@ import {
 } from '@angular/animations';
 import { SharedModule } from '../../../../shared/shared-module';
 import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
-import { TasksService } from '../../../tasks/services/task.service';
+import { TasksService } from '../../../../core/services/task.service';
 
 @Component({
   selector: 'app-categories-list',

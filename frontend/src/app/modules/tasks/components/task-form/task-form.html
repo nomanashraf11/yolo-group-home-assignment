@@ -102,47 +102,40 @@
     </div>
 
     <div class="form-row">
-      <app-select
-        label="Status"
-        [options]="statusOptions"
-        [required]="true"
-        [formControl]="status"
-        placeholder="Select a status"
-      >
-        <ng-template #optionTemplate let-option>
-          <span class="status-badge {{option.value | lowercase}}">
-            {{option.label}}
-          </span>
-        </ng-template>
-        <div
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select [formControl]="status" required>
+          <mat-option value="">Select a status</mat-option>
+          <mat-option
+            *ngFor="let option of statusOptions"
+            [value]="option.value"
+          >
+            <span class="status-badge {{option.value | lowercase}}"
+              >{{ option.label }}</span
+            >
+          </mat-option>
+        </mat-select>
+        <mat-error
           *ngIf="status?.invalid && (status?.dirty || status?.touched)"
-          class="error-message"
         >
           <span *ngIf="status?.errors?.['required']">Status is required</span>
-        </div>
-      </app-select>
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <div class="form-row">
-      <app-select
-        label="Category"
-        [options]="categoryOptions"
-        [required]="true"
-        [formControl]="categoryId"
-        placeholder="Select a category"
-      >
-      </app-select>
-      <ng-template #optionTemplate let-option>
-        <div class="category-option">{{option.label}}</div>
-      </ng-template>
-      <div
-        *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)"
-        class="error-message"
-      >
-        <span *ngIf="categoryId?.errors?.['required']"
-          >Category is required</span
-        >
-      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Category</mat-label>
+        <mat-select [formControl]="categoryId">
+          <mat-option value="">Not assigned</mat-option>
+          <mat-option
+            *ngFor="let option of categoryOptions"
+            [value]="option.value"
+          >
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </form>
 

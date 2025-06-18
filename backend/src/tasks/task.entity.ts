@@ -35,7 +35,7 @@ export class Task {
   category: Category;
 
   @Column({ nullable: true })
-  categoryId: number;
+  categoryId: number | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

@@ -5,7 +5,7 @@ import {
   CategoriesResponse,
   Category,
   CategoryFilterOptions,
-} from '../models/category.model';
+} from '../../modules/categories/models/category.model';
 
 @Injectable({
   providedIn: 'root',

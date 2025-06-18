@@ -6,7 +6,8 @@ import {
   CategoryFilterOptions,
 } from '../../models/category.model';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoriesService } from '../../services/category.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { CategoryFormComponent } from '../../components/category-form/category-form';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +23,7 @@ import {
 import { UiComponentsModule } from '../../../../shared/ui-components/ui-components.module';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination';
+import { CategoriesService } from '../../../../core/services/category.service';
 
 @Component({
   selector: 'app-categories-page',
@@ -38,6 +40,7 @@ import { PaginationComponent } from '../../../../shared/components/pagination/pa
     UiComponentsModule,
     FilterPanelComponent,
     PaginationComponent,
+    MatSnackBarModule,
   ],
 })
 export class CategoriesPageComponent implements OnInit {
@@ -61,7 +64,8 @@ export class CategoriesPageComponent implements OnInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -126,19 +130,21 @@ export class CategoriesPageComponent implements OnInit {
         if (category) {
           this.categoriesService.updateCategory(category.id, result).subscribe({
             next: () => {
+              this.snackBar.open('Category updated successfully!', 'Close', { duration: 2500, horizontalPosition: 'right', verticalPosition: 'top' });
               this.loadCategories();
             },
-            error: (error) => {
-              console.error('Error updating category:', error);
+            error: () => {
+              this.snackBar.open('Failed to update category.', 'Close', { duration: 2500, horizontalPosition: 'right', verticalPosition: 'top' });
             },
           });
         } else {
           this.categoriesService.createCategory(result).subscribe({
             next: () => {
+              this.snackBar.open('Category created successfully!', 'Close', { duration: 2500, horizontalPosition: 'right', verticalPosition: 'top' });
               this.loadCategories();
             },
-            error: (error) => {
-              console.error('Error creating category:', error);
+            error: () => {
+              this.snackBar.open('Failed to create category.', 'Close', { duration: 2500, horizontalPosition: 'right', verticalPosition: 'top' });
             },
           });
         }
@@ -158,8 +164,14 @@ export class CategoriesPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
-        this.categoriesService.deleteCategory(categoryId).subscribe(() => {
-          this.loadCategories();
+        this.categoriesService.deleteCategory(categoryId).subscribe({
+          next: () => {
+            this.snackBar.open('Category deleted successfully!', 'Close', { duration: 2500, horizontalPosition: 'right', verticalPosition: 'top' });
+            this.loadCategories();
+          },
+          error: () => {
+            this.snackBar.open('Failed to delete category.', 'Close', { duration: 2500, horizontalPosition: 'right', verticalPosition: 'top' });
+          },
         });
       }
     });
