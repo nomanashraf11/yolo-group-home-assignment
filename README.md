@@ -4,7 +4,7 @@ A task management application built with Angular frontend and NestJS backend. Th
 
 ## Demo Video
 
-[\[Video Link - Coming Soon\]](https://www.loom.com/share/78771bfb28124783b903678b3964d2f4?sid=f73109ba-ce5f-4009-9ed2-1682177b6dd4)
+[\[Video Link for demo\]](https://www.loom.com/share/78771bfb28124783b903678b3964d2f4?sid=f73109ba-ce5f-4009-9ed2-1682177b6dd4)
 
 ## Features
 
@@ -24,11 +24,11 @@ A task management application built with Angular frontend and NestJS backend. Th
 **Setup:**
 
 ```bash
-# Clone the repository
+# Clone the repo
 git clone https://github.com/nomanashraf11/yolo-group-home-assignment.git
 cd yolo-group-home-assignment
 
-# Run the setup script
+# Run the script that will run Docker commands and seed data
 ./setup-database.sh
 ```
 
@@ -43,7 +43,7 @@ cd yolo-group-home-assignment
 **Prerequisites:**
 
 - Node.js (v18+)
-- PostgreSQL running locally
+- PostgreSQL is running locally
 
 **Backend Setup:**
 
@@ -101,16 +101,6 @@ DB_PASSWORD=yolo_password
 - TypeORM
 - PostgreSQL
 
-## Assignment Details
-
-This is a test assignment for the Frontend Developer position at YOLO Group. The application demonstrates:
-
-- Modern Angular development practices
-- Component architecture and state management
-- API integration with RESTful services
-- Responsive UI design
-- Drag and drop functionality
-- Error handling and user feedback
 
 ## Development
 
